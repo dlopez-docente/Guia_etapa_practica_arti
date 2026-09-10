@@ -378,6 +378,51 @@
   }
   .error-item p{ margin:0; font-size:15px; line-height:1.6; }
 
+  .resource-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:22px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    margin-bottom:14px;
+  }
+  .resource-text h3{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15.5px;
+    font-weight:600;
+    color:var(--navy);
+    margin:0 0 6px;
+  }
+  .resource-text p{
+    margin:0;
+    font-size:14px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    max-width:480px;
+  }
+  .resource-btn{
+    flex-shrink:0;
+    display:inline-block;
+    text-decoration:none;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--navy);
+    border:1px solid var(--navy);
+    padding:9px 16px;
+    border-radius:var(--radius);
+    white-space:nowrap;
+    transition:background .15s ease, color .15s ease;
+  }
+  .resource-btn:hover{ background:var(--navy); color:#fff; }
+
+  @media (max-width: 620px){
+    .resource-card{ flex-direction:column; align-items:flex-start; }
+    .resource-btn{ width:100%; text-align:center; }
+  }
+
   .footnav{
     display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--line);
   }
@@ -536,6 +581,15 @@
         <div id="errorList"></div>
       </section>
 
+      <!-- 6 Recursos -->
+      <section class="panel" data-panel="6">
+        <p class="eyebrow">Sección 6</p>
+        <h2>Recursos y enlaces</h2>
+        <hr class="rule">
+        <p class="lede">Formatos, plantillas y material de apoyo que se usan durante todo el proceso de la Etapa Práctica.</p>
+        <div id="resourceList"></div>
+      </section>
+
       <div class="footnav">
         <button id="prevBtn">← Anterior</button>
         <button id="nextBtn">Siguiente →</button>
@@ -553,7 +607,8 @@ const STEPS = [
   "Estructura NTC 1486",
   "Programas técnicos",
   "Checklist del coordinador",
-  "Errores comunes"
+  "Errores comunes",
+  "Recursos y enlaces"
 ];
 
 const NTC = [
@@ -687,6 +742,33 @@ const CHECKLIST = [
   "Se anexa el prototipo correspondiente y guarda relación directa con el planteamiento del proyecto."
 ];
 
+const RESOURCES = [
+  {
+    title: "Reporte de asesorías",
+    desc: "Formato que deben usar los docentes para reportar cada asesoría realizada durante la Etapa Práctica.",
+    action: "Abrir formulario",
+    url: "https://forms.gle/qBzgnkr6Wzb8idSGA"
+  },
+  {
+    title: "Plantilla del informe final",
+    desc: "Documento base con el formato exigido (NTC 1486) para que el estudiante elabore su informe final.",
+    action: "Abrir plantilla",
+    url: "https://docs.google.com/document/d/1ndndn2Va9LI85ONO9ej_aTMjDbauFAAp/edit?usp=sharing&ouid=101233569868023663684&rtpof=true&sd=true"
+  },
+  {
+    title: "Asignación docente",
+    desc: "Consulta qué docente tiene a cargo el acompañamiento de cada estudiante o grupo de estudiantes.",
+    action: "Abrir asignación",
+    url: "https://docs.google.com/spreadsheets/d/15Er33E367BZi7dNT0HrDf7SvoXXrJA8c/edit?usp=sharing&ouid=101233569868023663684&rtpof=true&sd=true"
+  },
+  {
+    title: "Guía del informe final",
+    desc: "Material de apoyo con las indicaciones completas para la elaboración del informe final.",
+    action: "Abrir guía",
+    url: "https://drive.google.com/file/d/1np1FMz97S5UI-gNvVzg4_FPgdQqZJGnl/view?usp=sharing"
+  }
+];
+
 const ERRORS = [
   "Redactar la introducción o el desarrollo de actividades como un análisis argumentativo, perdiendo el carácter descriptivo exigido.",
   "Omitir alguna de las secciones de la NTC 1486, especialmente la hoja de aceptación o la tabla de contenido.",
@@ -783,6 +865,19 @@ ERRORS.forEach((text, i) => {
   row.className = 'error-item';
   row.innerHTML = `<div class="mark">${i+1}</div><p>${text}</p>`;
   errorListEl.appendChild(row);
+});
+
+const resourceListEl = document.getElementById('resourceList');
+RESOURCES.forEach((r) => {
+  const card = document.createElement('div');
+  card.className = 'resource-card';
+  card.innerHTML = `
+    <div class="resource-text">
+      <h3>${r.title}</h3>
+      <p>${r.desc}</p>
+    </div>
+    <a class="resource-btn" href="${r.url}" target="_blank" rel="noopener">${r.action} ↗</a>`;
+  resourceListEl.appendChild(card);
 });
 
 /* ---------------- NAVIGATION ---------------- */
