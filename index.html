@@ -3,1002 +3,912 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Funciones de los Coordinadores de Sede | UNINTEP</title>
+<title>Guía Etapa Práctica — Coordinadores y Directores | UNINTEP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#0b3d5c;
-    --navy-dark:#082c42;
-    --teal:#0f8a8a;
-    --teal-light:#e6f6f6;
-    --gold:#d9a441;
-    --gray-bg:#f4f6f8;
-    --text:#22303c;
-    --muted:#5b6b78;
-    --white:#ffffff;
-    --border:#dfe6eb;
-    --shadow: 0 4px 14px rgba(11,61,92,0.10);
+    --navy: #1c3854;
+    --navy-deep: #142a3f;
+    --gold: #c08f2c;
+    --gold-soft: #e7c877;
+    --cream: #f7f4ec;
+    --paper: #fffdf9;
+    --ink: #262420;
+    --ink-soft: #55524a;
+    --line: #e3ddc9;
+    --ok: #3f6b4f;
+    --radius: 3px;
+    --sidebar-w: 288px;
   }
   *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
   body{
-    margin:0;
-    font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
-    background:var(--gray-bg);
-    color:var(--text);
-    line-height:1.55;
+    font-family:'IBM Plex Sans', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
   }
-  header.hero{
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  h1,h2,h3,.serif{font-family:'Source Serif 4', serif;}
+  a{color:inherit;}
+  img{max-width:100%;}
+
+  /* ---------- Layout shell ---------- */
+  .shell{
+    display:flex;
+    min-height:100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#eef1f4;
+    display:flex;
+    flex-direction:column;
+    position:fixed;
+    top:0; bottom:0; left:0;
+    z-index:40;
+    transition:transform .28s ease;
+  }
+  .brand{
+    padding:28px 26px 20px;
+    border-bottom:1px solid rgba(255,255,255,.12);
+  }
+  .brand .mark{
+    font-size:12.5px;
+    letter-spacing:.06em;
+    color:var(--gold-soft);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .brand h1{
+    font-size:22px;
+    line-height:1.25;
+    margin:0 0 4px;
     color:#fff;
-    padding:38px 24px 30px;
-    text-align:center;
+    font-weight:600;
+  }
+  .brand p{
+    font-size:13px;
+    color:#b9c4cf;
+    margin:0;
+    line-height:1.5;
+  }
+  nav.steps{
+    flex:1;
+    overflow-y:auto;
+    padding:14px 12px 20px;
+  }
+  .step-btn{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    color:#c9d2da;
+    padding:12px 12px;
+    border-radius:var(--radius);
+    cursor:pointer;
+    font-family:inherit;
+    font-size:14.5px;
+    line-height:1.4;
+    margin-bottom:2px;
+    transition:background .15s ease, color .15s ease;
+  }
+  .step-btn .num{
+    flex-shrink:0;
+    width:26px; height:26px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.28);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:600;
+    color:#c9d2da;
+  }
+  .step-btn:hover{ background:rgba(255,255,255,.06); color:#fff; }
+  .step-btn.active{ background:rgba(255,255,255,.1); color:#fff; }
+  .step-btn.active .num{ background:var(--gold); border-color:var(--gold); color:var(--navy-deep); }
+
+  .sidebar-foot{
+    padding:16px 26px 22px;
+    border-top:1px solid rgba(255,255,255,.12);
+    font-size:12px;
+    color:#8fa0ac;
+    line-height:1.5;
+  }
+
+  /* ---------- Main ---------- */
+  .main{
+    margin-left:var(--sidebar-w);
+    flex:1;
+    min-width:0;
+  }
+  .topbar{
+    display:none;
+    position:sticky; top:0; z-index:30;
+    background:var(--navy);
+    color:#fff;
+    padding:14px 18px;
+    align-items:center;
+    gap:12px;
+  }
+  .topbar button{
+    background:none;border:1px solid rgba(255,255,255,.4);
+    color:#fff; border-radius:var(--radius); padding:6px 10px;
+    font-size:13px; cursor:pointer;
+  }
+  .content{
+    max-width:900px;
+    margin:0 auto;
+    padding:56px 48px 100px;
+  }
+  section.panel{ display:none; }
+  section.panel.active{ display:block; }
+
+  .eyebrow{
+    font-size:13px;
+    color:var(--gold);
+    font-weight:600;
+    margin:0 0 10px;
+  }
+  .panel h2{
+    font-size:32px;
+    margin:0 0 18px;
+    color:var(--navy);
+    font-weight:600;
+    line-height:1.2;
+  }
+  .lede{
+    font-size:17px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    max-width:680px;
+    margin:0 0 34px;
+  }
+  .panel p{ line-height:1.7; font-size:15.5px; color:var(--ink); }
+  .panel .rule{
+    border:none; border-top:2px solid var(--gold);
+    width:52px; margin:0 0 26px;
+  }
+
+  .callout{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    border-radius:var(--radius);
+    padding:18px 22px;
+    margin:22px 0;
+    font-size:15px;
+    line-height:1.65;
+  }
+  .callout strong{color:var(--navy);}
+
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin:26px 0;
+  }
+  .box{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 24px;
+  }
+  .box h3{
+    font-size:15px;
+    margin:0 0 12px;
+    color:var(--navy);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:600;
+  }
+  .box.no h3{ color:#8a3b2c; }
+  .box ul, .plain-list{ margin:0; padding-left:0; list-style:none; }
+  .box li, .plain-list li{
     position:relative;
+    padding-left:20px;
+    margin-bottom:11px;
+    font-size:14.5px;
+    line-height:1.55;
+    color:var(--ink);
+  }
+  .box li::before{
+    content:"";
+    position:absolute; left:0; top:8px;
+    width:7px; height:7px;
+    background:var(--ok);
+  }
+  .box.no li::before{ background:#8a3b2c; }
+
+  /* Estructura NTC table as stacked rows */
+  .ntc-row{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    gap:22px;
+    padding:18px 0;
+    border-top:1px solid var(--line);
+  }
+  .ntc-row:first-of-type{ border-top:1px solid var(--line); }
+  .ntc-row .label{
+    font-weight:600;
+    color:var(--navy);
+    font-size:14.5px;
+    line-height:1.4;
+  }
+  .ntc-row .desc{ font-size:14.5px; line-height:1.65; color:var(--ink); }
+
+  /* Search + programs */
+  .search-wrap{ margin-bottom:22px; }
+  .search-wrap input{
+    width:100%;
+    font-family:inherit;
+    font-size:15px;
+    padding:12px 16px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .search-wrap input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+
+  .prog-item{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:12px;
+    background:var(--paper);
     overflow:hidden;
   }
-  header.hero .hero-char{
-    position:absolute;
-    bottom:0;
-    height:100%;
-    max-height:220px;
-    width:auto;
-    object-fit:contain;
-    pointer-events:none;
-  }
-  header.hero .hero-char-left{ left:12px;}
-  header.hero .hero-char-right{ right:12px;}
-  @media (max-width:820px){
-    header.hero .hero-char{ display:none;}
-  }
-  header.hero .tag{
-    display:inline-block;
-    background:rgba(255,255,255,0.12);
-    border:1px solid rgba(255,255,255,0.35);
-    padding:4px 14px;
-    border-radius:20px;
-    font-size:12px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    margin-bottom:14px;
-  }
-  header.hero h1{
-    margin:0 0 8px;
-    font-size:clamp(22px,4vw,34px);
-    font-weight:700;
-  }
-  header.hero p{
-    margin:0 auto;
-    max-width:720px;
-    color:#cfe3ec;
-    font-size:15px;
-  }
-  nav.tabs{
-    position:sticky;
-    top:0;
-    z-index:50;
-    background:var(--white);
+  .prog-head{
+    width:100%;
     display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:4px;
-    padding:10px 12px;
-    border-bottom:1px solid var(--border);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-  nav.tabs button{
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:16px 20px;
+    background:none;
     border:none;
-    background:transparent;
-    padding:10px 16px;
-    font-size:14px;
-    font-weight:600;
-    color:var(--muted);
+    text-align:left;
     cursor:pointer;
-    border-radius:8px;
-    transition:.15s;
-    white-space:nowrap;
-    display:inline-flex; align-items:center; gap:7px;
+    font-family:inherit;
   }
-  nav.tabs button svg{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;}
-  nav.tabs button:hover{ background:var(--teal-light); color:var(--teal);}
-  nav.tabs button.active{ background:var(--navy); color:#fff;}
-
-  main{max-width:980px; margin:0 auto; padding:28px 18px 70px;}
-  section.view{display:none; animation:fade .25s ease;}
-  section.view.active{display:block;}
-  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
-
-  .section-title{
-    display:flex; align-items:center; gap:10px;
-    margin:0 0 6px;
-    font-size:21px;
+  .prog-head .tag{
+    font-size:11.5px;
+    letter-spacing:.04em;
+    color:var(--gold);
+    font-weight:700;
+    display:block;
+    margin-bottom:3px;
+  }
+  .prog-head .name{
+    font-size:16px;
+    font-weight:600;
     color:var(--navy);
   }
-  .section-sub{ color:var(--muted); font-size:14px; margin:0 0 22px;}
+  .prog-head .chev{
+    flex-shrink:0;
+    color:var(--ink-soft);
+    transition:transform .2s ease;
+    font-size:18px;
+  }
+  .prog-item.open .chev{ transform:rotate(180deg); }
+  .prog-body{
+    display:none;
+    padding:0 20px 22px;
+    border-top:1px solid var(--line);
+  }
+  .prog-item.open .prog-body{ display:block; }
+  .prog-body .sub{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--navy);
+    letter-spacing:.03em;
+    margin:20px 0 8px;
+  }
+  .prog-body p{ margin:0 0 4px; font-size:14.5px; }
+  .prog-body ul{ margin:8px 0 0; padding-left:0; list-style:none; }
+  .prog-body li{
+    position:relative; padding-left:18px; margin-bottom:9px;
+    font-size:14.5px; line-height:1.55;
+  }
+  .prog-body li::before{
+    content:"";
+    position:absolute; left:0; top:7px;
+    width:6px; height:6px;
+    background:var(--gold);
+  }
+  .proto-flag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ok);
+    background:#eaf1ec;
+    border:1px solid #c9dccf;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-top:14px;
+  }
+  .no-results{ color:var(--ink-soft); font-size:14.5px; padding:20px 0; }
 
-  /* Cards for institutional context */
-  .grid-cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-    gap:16px;
+  /* Checklist */
+  .progress-wrap{
+    display:flex; align-items:center; gap:14px;
     margin-bottom:26px;
   }
-  .card{
-    background:var(--white);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:18px 18px;
-    box-shadow:var(--shadow);
+  .progress-track{
+    flex:1; height:8px; background:var(--line); border-radius:4px; overflow:hidden;
   }
-  .card h3{ margin:0 0 8px; font-size:15px; color:var(--teal); display:flex; gap:8px; align-items:center;}
-  .card p{ margin:0; font-size:13.5px; color:var(--text);}
+  .progress-fill{
+    height:100%; width:0%; background:var(--gold);
+    transition:width .25s ease;
+  }
+  .progress-label{ font-size:13.5px; color:var(--ink-soft); white-space:nowrap; font-weight:600; }
+  .check-item{
+    display:flex; gap:14px; align-items:flex-start;
+    padding:14px 0;
+    border-top:1px solid var(--line);
+    cursor:pointer;
+  }
+  .check-item:first-of-type{ border-top:1px solid var(--line); }
+  .check-item input{
+    margin-top:3px; width:17px; height:17px; accent-color:var(--navy); cursor:pointer; flex-shrink:0;
+  }
+  .check-item span{ font-size:15px; line-height:1.55; color:var(--ink); }
+  .check-item.checked span{ color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--line); }
+  .reset-btn{
+    margin-top:22px;
+    background:none; border:1px solid var(--line); color:var(--ink-soft);
+    padding:9px 16px; border-radius:var(--radius); font-family:inherit; font-size:13.5px; cursor:pointer;
+  }
+  .reset-btn:hover{ border-color:var(--navy); color:var(--navy); }
 
-  .pill-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;}
-  .pill{
-    background:var(--teal-light); color:var(--teal);
-    padding:6px 13px; border-radius:20px; font-size:12.5px; font-weight:600;
+  .error-item{
+    display:flex; gap:14px; padding:16px 0; border-top:1px solid var(--line);
   }
-
-  /* Bento grid de las 8 áreas, con arco de progreso */
-  .bento-grid{
-    display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-    gap:14px; margin-bottom:22px;
-  }
-  .bento-card{
-    background:linear-gradient(180deg,#ffffff,#fbf9f4); border:1px solid var(--border); border-radius:16px;
-    padding:16px; box-shadow:var(--shadow); text-align:left; cursor:pointer;
-    transition:.15s; display:flex; flex-direction:column; gap:6px;
-  }
-  .bento-card:hover{ transform:translateY(-3px); border-color:var(--teal); box-shadow:0 8px 20px rgba(11,61,92,0.14);}
-  .bento-card.active{ border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-light);}
-  .bento-top{ display:flex; align-items:center; justify-content:space-between; width:100%;}
-  .bento-card h4{ margin:2px 0 0; font-size:13px; color:var(--navy); line-height:1.3;}
-  .arc{
-    width:50px; height:50px; border-radius:50%; flex-shrink:0;
-    background:conic-gradient(var(--teal) calc(var(--pct)*1%), var(--border) 0);
-    display:flex; align-items:center; justify-content:center; position:relative;
-  }
-  .arc::before{ content:''; position:absolute; inset:5px; background:var(--white); border-radius:50%;}
-  .arc-pct{ position:relative; font-size:12px; font-weight:800; color:var(--navy); z-index:1;}
-  .bento-card .subcount{ font-size:11px; color:var(--muted);}
-
-  /* Panel de detalle (checklist de la tarjeta seleccionada) */
-  .area-detail{
-    display:none; background:var(--white); border:1px solid var(--border); border-left:5px solid var(--teal);
-    border-radius:12px; box-shadow:var(--shadow); padding:18px 20px; margin-bottom:20px;
-  }
-  .area-detail.open{ display:block; animation:fade .2s ease;}
-  .area-detail .detail-title{ margin:0 0 14px; font-size:17px; font-weight:700; color:var(--navy);}
-  .area-detail .detail-columns{ display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap;}
-  .area-detail .detail-illustration{ flex:0 0 auto;}
-  .area-detail .detail-content{ flex:1 1 240px; min-width:200px;}
-  .area-detail .detail-sub{ font-size:12.5px; color:var(--muted); margin:2px 0 12px;}
-
-  /* Guía de proceso paso a paso (ej. Inscripción de Aspirantes) */
-  .proceso-guide{
-    margin-top:16px; padding-top:14px; border-top:1px dashed var(--border);
-  }
-  .proceso-guide h5{
-    margin:0 0 10px; font-size:13.5px; color:var(--navy); font-weight:700;
-  }
-  .proceso-steps{ margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px;}
-  .proceso-steps li{ font-size:13px; color:var(--text);}
-  .proceso-steps li b{ color:var(--teal);}
-
-  /* Iconografía institucional (SVG en círculo de acento) */
-  .icon-badge{
-    width:38px; height:38px; border-radius:50%;
-    background:var(--teal-light); color:var(--teal);
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .icon-badge svg{ width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
-  .icon-badge.lg{ width:54px; height:54px;}
-  .icon-badge.lg svg{ width:26px; height:26px;}
-  .icon-badge.gold{ background:#f6ecd8; color:var(--gold);}
-  .icon-badge.navy{ background:#e7edf3; color:var(--navy);}
-
-  /* Mascotas ilustradas a color (checklist de 8 áreas) */
-  .mascot-badge{ width:72px; height:72px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
-  .mascot-badge img{ width:100%; height:100%; object-fit:contain;}
-  .area-detail .detail-illustration .mascot-badge{ width:150px; height:150px;}
-
-  /* Reporte de cumplimiento */
-  .report-wrap{
-    background:var(--white); border:1px solid var(--border); border-radius:14px;
-    padding:20px 22px; box-shadow:var(--shadow); margin-top:6px;
-  }
-  .report-fields{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:16px;}
-  .report-fields label{ display:block; font-size:12px; color:var(--muted); font-weight:600; margin-bottom:5px;}
-  .report-fields input{
-    width:100%; padding:9px 12px; border-radius:8px; border:1px solid var(--border); font-size:13.5px;
-  }
-  .reportBtn{
-    display:block; width:100%; border:none; background:linear-gradient(90deg,var(--teal),var(--navy));
-    color:#fff; padding:14px 20px; border-radius:10px; font-size:14.5px; font-weight:700;
-    cursor:pointer; box-shadow:var(--shadow); transition:.15s;
-  }
-  .reportBtn:hover{ transform:translateY(-2px); }
-
-  /* Contenedor de impresión (solo visible al generar el PDF) */
-  #printReport{ display:none; }
-  @media print{
-    body *{ visibility:hidden; }
-    #printReport, #printReport *{ visibility:visible; }
-    #printReport{ display:block; position:absolute; top:0; left:0; width:100%; }
-    .rp-header img, .rp-footer img{ width:100%; display:block; }
-    .rp-body{ padding:18px 34px; }
-    .rp-title{ text-align:center; margin:14px 0 4px;}
-    .rp-title h1{ font-size:19px; color:var(--navy); margin:0;}
-    .rp-title p{ font-size:12px; color:var(--muted); margin:2px 0 0;}
-    .rp-meta{ display:flex; justify-content:space-between; font-size:12px; margin:16px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:8px 0;}
-    .rp-overall{ text-align:center; margin:10px 0 18px;}
-    .rp-overall .pct{ font-size:30px; font-weight:800; color:var(--teal);}
-    .rp-area{ margin-bottom:12px; page-break-inside:avoid; }
-    .rp-area-head{ display:flex; justify-content:space-between; align-items:baseline; font-size:13px; font-weight:700; color:var(--navy); border-bottom:1px solid var(--border); padding-bottom:3px; margin-bottom:5px;}
-    .rp-area ul{ margin:0; padding-left:18px; font-size:11.5px; color:var(--text);}
-    .rp-area li{ margin-bottom:2px;}
-    .rp-area li.pending::before{ content:"⏳ "; }
-    .rp-area li.done{ color:var(--muted); text-decoration:line-through; }
-    .rp-footer{ margin-top:24px; }
-    .rp-footer-note{ text-align:center; font-size:10.5px; color:var(--muted); margin:8px 0;}
-  }
-
-  /* Progreso / checklist integrado en Funciones por Área */
-  .progress-wrap{
-    background:var(--white); border:1px solid var(--border); border-radius:12px;
-    padding:16px 18px; margin-bottom:20px; box-shadow:var(--shadow);
-    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
-  }
-  .progress-bar-bg{
-    flex:1; min-width:200px; background:#e7edf0; border-radius:20px; height:14px; overflow:hidden;
-  }
-  .progress-bar-fill{
-    height:100%; background:linear-gradient(90deg,var(--teal),var(--navy)); width:0%; transition:width .3s ease;
-  }
-  #progressText{ font-size:13px; font-weight:700; color:var(--navy); white-space:nowrap;}
-  .resetBtn{
-    border:1px solid var(--border); background:var(--white); color:var(--muted);
-    padding:7px 12px; border-radius:8px; cursor:pointer; font-size:12.5px;
-  }
-  .resetBtn:hover{ background:var(--gray-bg);}
-  .check-row{
-    display:flex; gap:10px; align-items:flex-start; padding:9px 0; border-top:1px dashed var(--border); font-size:13.8px;
-  }
-  .check-row:first-child{ border-top:none;}
-  .check-row input[type=checkbox]{ margin-top:3px; width:16px; height:16px; accent-color:var(--teal); flex-shrink:0;}
-  .check-row label.done{ text-decoration:line-through; color:var(--muted);}
-
-  .lineamiento-cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-bottom:20px;}
-  .lineamiento-cols .card h3{ color:var(--navy);}
-
-  /* Stepper interactivo (etapas del semestre) */
-  .stepper{
-    display:flex; align-items:flex-start; justify-content:center;
-    margin:18px 0 22px; flex-wrap:wrap;
-  }
-  .step-node{
-    display:flex; flex-direction:column; align-items:center;
-    cursor:pointer; flex:0 0 auto; padding:0 10px; max-width:150px;
-  }
-  .step-circle{
-    width:38px; height:38px; border-radius:50%;
-    background:var(--white); color:var(--muted);
+  .error-item:first-of-type{ border-top:1px solid var(--line); }
+  .error-item .mark{
+    flex-shrink:0; width:26px; height:26px; border-radius:50%;
+    background:#f6ece7; color:#8a3b2c; font-weight:700; font-size:14px;
     display:flex; align-items:center; justify-content:center;
-    font-weight:700; font-size:15px;
-    border:2px solid var(--border); transition:.2s;
   }
-  .step-node.active .step-circle{ background:var(--teal); color:#fff; border-color:var(--teal); box-shadow:0 0 0 4px var(--teal-light);}
-  .step-node.done .step-circle{ background:var(--navy); color:#fff; border-color:var(--navy);}
-  .step-label{
-    margin-top:9px; font-size:12.5px; text-align:center; color:var(--muted); font-weight:700;
-  }
-  .step-node.active .step-label{ color:var(--navy);}
-  .step-label span{
-    display:block; font-size:11px; font-weight:500; color:var(--muted); margin-top:2px;
-  }
-  .step-line{
-    flex:1; height:2px; background:var(--border); margin-top:19px; min-width:26px; max-width:70px;
-  }
-  .step-panels{ margin-bottom:6px;}
-  .step-panel{ display:none; animation:fade .2s ease;}
-  .step-panel.open{ display:block;}
+  .error-item p{ margin:0; font-size:15px; line-height:1.6; }
 
-  .badge-area{
-    display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
-    background:var(--gold); color:#fff; padding:3px 8px; border-radius:6px; margin-bottom:10px; letter-spacing:.5px;
+  .resource-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:22px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    margin-bottom:14px;
   }
-  footer{
-    text-align:center; padding:24px; color:var(--muted); font-size:12px;
+  .resource-text h3{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15.5px;
+    font-weight:600;
+    color:var(--navy);
+    margin:0 0 6px;
   }
-  .searchbox{
-    width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--border);
-    font-size:14px; margin-bottom:18px; background:var(--white);
+  .resource-text p{
+    margin:0;
+    font-size:14px;
+    line-height:1.55;
+    color:var(--ink-soft);
+    max-width:480px;
   }
-  .home-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:20px;}
-  .home-tile{
-    background:var(--white); border:1px solid var(--border); border-radius:14px; padding:20px;
-    text-align:center; cursor:pointer; box-shadow:var(--shadow); transition:.15s;
+  .resource-btn{
+    flex-shrink:0;
+    display:inline-block;
+    text-decoration:none;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--navy);
+    border:1px solid var(--navy);
+    padding:9px 16px;
+    border-radius:var(--radius);
+    white-space:nowrap;
+    transition:background .15s ease, color .15s ease;
   }
-  .home-tile:hover{ transform:translateY(-3px); border-color:var(--teal);}
-  .home-tile .icon-badge{ margin:0 auto 10px;}
-  .home-tile-illustrated{ text-align:center;}
-  .home-tile-img{ width:100%; max-height:140px; object-fit:contain; margin-bottom:10px;}
-  .home-tile h4{ margin:0 0 4px; color:var(--navy); font-size:14.5px;}
-  .home-tile p{ margin:0; font-size:12px; color:var(--muted);}
+  .resource-btn:hover{ background:var(--navy); color:#fff; }
+
+  @media (max-width: 620px){
+    .resource-card{ flex-direction:column; align-items:flex-start; }
+    .resource-btn{ width:100%; text-align:center; }
+  }
+
+  .footnav{
+    display:flex; justify-content:space-between; margin-top:52px; padding-top:26px; border-top:1px solid var(--line);
+  }
+  .footnav button{
+    background:none; border:none; font-family:inherit; cursor:pointer;
+    color:var(--navy); font-size:14.5px; font-weight:600; display:flex; gap:8px; align-items:center;
+  }
+  .footnav button:disabled{ visibility:hidden; }
+  .footnav button:hover{ color:var(--gold); }
+
+  /* Overlay for mobile */
+  .overlay{
+    display:none; position:fixed; inset:0; background:rgba(20,32,45,.5); z-index:35;
+  }
+
+  @media (max-width: 880px){
+    .sidebar{ transform:translateX(-100%); }
+    .sidebar.open{ transform:translateX(0); }
+    .main{ margin-left:0; }
+    .topbar{ display:flex; }
+    .overlay.open{ display:block; }
+    .content{ padding:34px 22px 80px; }
+    .two-col{ grid-template-columns:1fr; }
+    .ntc-row{ grid-template-columns:1fr; gap:6px; }
+    .panel h2{ font-size:26px; }
+  }
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <img class="hero-char hero-char-left" src="header-mujer.png" alt="">
-  <div class="tag">Vicerrectoría Académica · UNINTEP</div>
-  <h1>Funciones de los Coordinadores de sede</h1>
-  <p>Material de socialización interactivo — contexto institucional, modelo pedagógico y funciones operativas para la ampliación de cobertura de nuestros programas.</p>
-  <img class="hero-char hero-char-right" src="header-hombre.png" alt="">
-</header>
+<div class="shell">
 
-<nav class="tabs">
-  <button class="active" data-view="institucion"><svg viewBox="0 0 24 24"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/><path d="M4 21h16"/></svg> Conoce tu Institución</button>
-  <button data-view="academica"><svg viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 10.5V16c0 1.5 2.5 3 6 3s6-1.5 6-3v-5.5"/></svg> Gestión Académica</button>
-  <button data-view="plan-trabajo"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 9h8M8 13l2 2 4-4M8 17h5"/></svg> Plan Estratégico de Gestión</button>
-  <button data-view="recursos"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1"/><path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></svg> Centro de Recursos</button>
-</nav>
+  <div class="overlay" id="overlay"></div>
 
-<main>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">INSTITUCIÓN UNIVERSITARIA UNINTEP</div>
+      <h1>Guía Etapa Práctica</h1>
+      <p>Para coordinadores y directores — estudiantes de articulación</p>
+    </div>
+    <nav class="steps" id="stepNav"></nav>
+    <div class="sidebar-foot">Coordinación de Prácticas Empresariales</div>
+  </aside>
 
-  <!-- CONOCE TU INSTITUCIÓN -->
-  <section class="view active" id="institucion">
-    <h2 class="section-title">👋 Bienvenido/a, Coordinador/a</h2>
-    <p class="section-sub">Con el fin de garantizar el cumplimiento y la calidad en los procesos académicos y administrativos donde UNINTEP hace presencia a través de la ampliación de cobertura de sus programas, esta guía reúne las recomendaciones y compromisos que debe tener en cuenta cada Coordinador de Sede.</p>
-    <div class="home-grid" style="margin-bottom:30px;">
-      <div class="home-tile home-tile-illustrated" onclick="showView('academica')">
-        <img class="home-tile-img" src="tile-gestion-academica.png" alt="">
-        <h4>Gestión Académica</h4>
-        <p>Línea de tiempo del semestre e instructivos pedagógicos</p>
-      </div>
-      <div class="home-tile home-tile-illustrated" onclick="showView('plan-trabajo')">
-        <img class="home-tile-img" src="tile-plan-trabajo.png" alt="">
-        <h4>Plan Estratégico de Gestión</h4>
-        <p>8 áreas temáticas · marca tu avance con check</p>
-      </div>
-      <div class="home-tile home-tile-illustrated" onclick="showView('recursos')">
-        <img class="home-tile-img" src="tile-centro-recursos.png" alt="">
-        <h4>Centro de Recursos</h4>
-        <p>Formatos, Moodle, software de notas y reglamento</p>
-      </div>
+  <div class="main">
+    <div class="topbar">
+      <button id="menuBtn" aria-label="Abrir menú">☰ Secciones</button>
     </div>
 
-    <h3 class="section-title" style="font-size:18px;">🏛️ Contexto institucional</h3>
-    <p class="section-sub" style="margin-top:-4px;">Objetivo: alinear a los Coordinadores con la identidad y el propósito institucional del UNINTEP.</p>
+    <div class="content" id="content">
 
-    <div class="grid-cards">
-      <div class="card">
-        <h3>🎯 Misión</h3>
-        <p>UNINTEP, desde su naturaleza pública como Institución de Educación Terciaria, forma Técnicos Profesionales, Tecnólogos y Profesionales Universitarios, por ciclos propedéuticos. Ciudadanos con habilidades prácticas y capacidades de pensamiento, a través de una educación inclusiva, con pertinencia, enfoque investigativo y de emprendimiento, con el propósito de generar soluciones a los problemas de la comunidad y contribuir al desarrollo sostenible de la región. Todo ello, a través de la conformación de alianzas de aprendizaje, el relacionamiento con el sector externo y una gestión administrativa y financiera soportada por un talento humano competente.</p>
-      </div>
-      <div class="card">
-        <h3>🔭 Visión</h3>
-        <p>Para el año 2033 UNINTEP será una institución universitaria reconocida como líder en la promoción y el posicionamiento de la Educación Terciaria en el Valle del Cauca; contará con programas académicos acreditados de alta calidad; y aportará a incrementar significativamente el acceso y graduación de jóvenes para contribuir a la consolidación de un Valle del Cauca Educado, Productivo y en Paz.</p>
-      </div>
-    </div>
+      <!-- 0 Inicio -->
+      <section class="panel" data-panel="0">
+        <p class="eyebrow">Guía para coordinadores y directores</p>
+        <h2>Etapa Práctica — Estudiantes de Articulación</h2>
+        <hr class="rule">
+        <p class="lede">Esta guía unifica los criterios para supervisar y revisar el trabajo final que entrega cada estudiante de articulación al cierre de su proceso práctico.</p>
 
-    <div class="pill-row">
-      <span class="pill">Rol estratégico de las sedes en la expansión y calidad</span>
-      <span class="pill">Estructura organizacional</span>
-    </div>
+        <p>Está dirigida a los coordinadores y directores que apoyan la supervisión de la Etapa Práctica de los estudiantes de articulación con la media técnica. Su objetivo es precisar qué se espera de cada programa técnico y qué elementos debe contener el trabajo final para considerarse completo y adecuado.</p>
 
-    <h3 class="section-title" style="font-size:18px;">📘 Proyecto Educativo</h3>
-    <div class="card" style="margin-bottom:20px;">
-      <p>El Proyecto Educativo UNINTEP se fundamenta en el Modelo Pedagógico Socio-Constructivista, el cual se basa en la importancia de considerar la interacción social como eje fundamental del desarrollo humano y el desarrollo cognitivo de los estudiantes. Esto implica un cambio de actitud de directivos, docentes, estudiantes, padres de familia, comunidad y autoridades educativas hacia relaciones de colaboración a través del trabajo común y compartido, llevando a cabo dinámicas colaborativas que promuevan el intercambio de experiencias y saberes previos para ayudar a fortalecer habilidades sociales como la comunicación asertiva, el trabajo en equipo, el compromiso, entre otras más.</p>
-      <p style="margin-top:10px;">Es así como la fundamentación pedagógica de UNINTEP se centra en el enfoque sociocrítico, ya que la formación de profesionales se entiende como una actividad crítica en la cual se le otorga prioridad al desarrollo de competencias y resultados de aprendizaje que forman un profesional reflexivo, con capacidad de pensamiento y acción, de tal manera que esté en capacidad de analizar situaciones problemáticas que se le presentan en su contexto, gracias a la toma de decisiones para la mejora de su profesión.</p>
-    </div>
-
-    <h3 class="section-title" style="font-size:18px;">🧭 Principios institucionales</h3>
-    <div class="grid-cards" id="cards-principios"></div>
-
-    <h3 class="section-title" style="font-size:18px; margin-top:6px;">💎 Valores institucionales</h3>
-    <div class="grid-cards" id="cards-valores"></div>
-  </section>
-
-  <!-- GESTIÓN ACADÉMICA -->
-  <section class="view" id="academica">
-    <h2 class="section-title">🎓 Modelo educativo y enfoque pedagógico</h2>
-    <p class="section-sub">La labor educativa no es un acto aislado, sino un proceso estructurado bajo un Modelo Pedagógico Integral a la gestión académica y demás dependencias del UNINTEP. El modelo pedagógico y curricular se fundamenta en cuatro pilares esenciales:</p>
-
-    <div class="grid-cards">
-      <div class="card"><h3>1️⃣ Modelo Pedagógico Socio-Constructivista</h3><p>El Proyecto Educativo UNINTEP se fundamenta en el Modelo Pedagógico Socio-Constructivista, el cual se basa en la importancia de considerar la interacción social como eje fundamental del desarrollo humano y el desarrollo cognitivo de los estudiantes. Esto implica un cambio de actitud de directivos, docentes, estudiantes, padres de familia, comunidad y autoridades educativas hacia relaciones de colaboración a través del trabajo común y compartido, llevando a cabo dinámicas colaborativas que promuevan el intercambio de experiencias y saberes previos para ayudar a fortalecer habilidades sociales como la comunicación asertiva, el trabajo en equipo, el compromiso, entre otras más.</p></div>
-      <div class="card"><h3>2️⃣ Enfoque por competencias</h3><p>La formación se orienta al desarrollo de competencias aplicables al contexto real y al mercado laboral.</p></div>
-      <div class="card"><h3>3️⃣ Resultados de Aprendizaje (RA)</h3><p>La planeación de aula no parte de los temas, sino del Resultado de Aprendizaje; los temas se articulan con las actividades desarrolladas.</p></div>
-      <div class="card"><h3>4️⃣ Ciclos propedéuticos</h3><p>Estructura curricular secuencial y flexible que permite incorporación temprana al mercado laboral: Técnico Profesional → Tecnológico → Profesional Universitario.</p></div>
-    </div>
-
-    <h3 class="section-title" style="font-size:18px;">📅 Etapas del semestre</h3>
-    <p class="section-sub" style="margin-top:-4px;">Haz clic en cada etapa para ver el detalle de lo que debes gestionar.</p>
-
-    <div class="stepper" id="semestreStepper">
-      <div class="step-node active" data-step="0" onclick="selectStep(0)">
-        <div class="step-circle">1</div>
-        <div class="step-label">Planeación<span>Antes de iniciar clases</span></div>
-      </div>
-      <div class="step-line"></div>
-      <div class="step-node" data-step="1" onclick="selectStep(1)">
-        <div class="step-circle">2</div>
-        <div class="step-label">Ejecución<span>Durante el semestre</span></div>
-      </div>
-      <div class="step-line"></div>
-      <div class="step-node" data-step="2" onclick="selectStep(2)">
-        <div class="step-circle">3</div>
-        <div class="step-label">Cierre<span>Al finalizar</span></div>
-      </div>
-    </div>
-
-    <div class="step-panels">
-      <div class="step-panel open" id="panel-0">
-        <div class="card">
-          <span class="badge-area">Antes de iniciar clases</span>
-          <h3>Planeación</h3>
-          <p>De acuerdo con el Syllabus y la <a href="https://drive.google.com/file/d/1XfqLMWu71fZEd1EDxfogD2vJJ_UidBaG/view?usp=sharing" target="_blank" rel="noopener" style="color:var(--teal); font-weight:700; text-decoration:underline;">guía de Planeador de Aula (P04-G-03)</a>, el docente debe diligenciar el formato <a href="https://docs.google.com/document/d/1GzRfMV99B_S_-vD0aU8ejTbbwTGONZBn/edit?usp=sharing" target="_blank" rel="noopener" style="color:var(--teal); font-weight:700; text-decoration:underline;">P04-FT-26 Planeador de Aula V1</a>, basado estrictamente en los Resultados de Aprendizaje (RA). Este documento debe enviarse diligenciado correctamente al director de la Unidad y/o coordinador encargado de la sede.</p>
-          <p style="margin-top:10px;">Para el desarrollo del <b>Proyecto Integrador</b>, tener presente la guía dada para cada semestre, la cual debe cumplirse por las asignaturas integradas en cuanto al objetivo curricular y la metodología.</p>
+        <div class="callout">
+          <strong>El trabajo final solicitado, en todos los casos, corresponde a un informe descriptivo y un prototipo.</strong> La coherencia entre el enfoque descriptivo exigido, el prototipo desarrollado y el contenido del informe es el primer criterio de revisión, independientemente del programa técnico del estudiante.
         </div>
-      </div>
-      <div class="step-panel" id="panel-1">
-        <div class="card">
-          <span class="badge-area">Durante el semestre</span>
-          <h3>Ejecución del Planeador de Aula</h3>
-          <p><b>Primera clase:</b> el docente diligencia el formato <a href="https://docs.google.com/document/d/13POEywpObxuuLc97B8XtrTvEI_odZ-q0/edit?usp=sharing" target="_blank" rel="noopener" style="color:var(--teal); font-weight:700; text-decoration:underline;">P04-FT-24 Acuerdo Aula y Socialización Syllabus V1</a>, dando las pautas de desarrollo de la clase según el syllabus, las normas dadas por el docente y las pautas del <a href="https://intep.edu.co/portal/wp-content/uploads/2026/06/06-ACUERDO-No.-019_REGLAMENTO-ESTUDIANTIL_UNINTEP.pdf" target="_blank" rel="noopener" style="color:var(--teal); font-weight:700; text-decoration:underline;">reglamento estudiantil</a> (asistencia y porcentajes de evaluación). Los estudiantes firman el documento en señal de acuerdo.<br>
-          <b>Asistencia:</b> se registra en cada clase; por inasistencia el estudiante pierde la asignatura de acuerdo a la intensidad horaria (igual o mayor al 25% sin incapacidad médica, y hasta el 30% con incapacidad médica).<br>
-          <b>Evaluación:</b> formativa (retroalimentación constante) y sumativa (tres cortes: 30%, 35%, 35%).<br>
-          <b>Herramientas:</b> uso obligatorio de rúbricas y fomento de la metacognición.<br>
-          <b>Plataforma:</b> el trabajo autónomo se gestiona por Moodle.<br>
-          <b>Registro:</b> ingresar al enlace institucional para registrar la clase con evidencias.</p>
+
+        <p class="box h3" style="margin-top:36px; font-family:'IBM Plex Sans',sans-serif; color:var(--navy); font-weight:600; font-size:15px;">Cómo usar esta guía</p>
+        <div class="two-col" style="margin-top:10px;">
+          <div class="box">
+            <h3>1 · Lo transversal</h3>
+            <ul>
+              <li>Qué es un informe descriptivo y qué lo diferencia de uno analítico.</li>
+              <li>La estructura exigida por la norma NTC 1486 para cualquier programa.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>2 · Lo específico</h3>
+            <ul>
+              <li>El planteamiento y las metas propias de cada uno de los 7 programas técnicos.</li>
+              <li>Un checklist y los errores más comunes al momento de revisar.</li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="step-panel" id="panel-2">
-        <div class="card">
-          <span class="badge-area">Al finalizar</span>
-          <h3>Cierre</h3>
-          <p><b>Planilla de notas:</b> los docentes deben entregar la Planilla de Socialización de Notas firmada por los estudiantes al director y/o coordinador encargado.<br>
-          <b>Habilitaciones:</b> el proceso se realiza según el cronograma estipulado por la institución, para estudiantes con nota final entre 2.0 y 2.9.<br>
-          <b>Notas:</b> deben registrarse oportunamente en el programa del software académico.</p>
+      </section>
+
+      <!-- 1 Informe descriptivo -->
+      <section class="panel" data-panel="1">
+        <p class="eyebrow">Sección 1</p>
+        <h2>El informe descriptivo</h2>
+        <hr class="rule">
+        <p class="lede">El informe descriptivo presenta de manera detallada y objetiva los aspectos o características de las actividades realizadas por el estudiante. Evita interpretaciones o análisis profundos, permitiendo que el lector comprenda el contexto y los detalles sin necesidad de inferencias.</p>
+
+        <div class="two-col">
+          <div class="box">
+            <h3>El informe debe</h3>
+            <ul>
+              <li>Narrar y detallar lo que efectivamente realizaron.</li>
+              <li>Organizar la información según los objetivos específicos, las actividades o el cronograma semanal.</li>
+              <li>Presentar hechos, cifras y evidencias verificables.</li>
+            </ul>
+          </div>
+          <div class="box no">
+            <h3>El informe NO debe</h3>
+            <ul>
+              <li>Incluir interpretaciones, juicios de valor o análisis profundos que excedan la descripción de lo realizado.</li>
+              <li>Anticipar conclusiones dentro de la introducción o el desarrollo de actividades.</li>
+              <li>Mezclar resultados con conclusión: los primeros indican si se logró cada objetivo y cómo; la segunda recoge la valoración personal del estudiante.</li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- MI PLAN DE TRABAJO -->
-  <section class="view" id="plan-trabajo">
-    <h2 class="section-title">📌 Plan Estratégico de Gestión</h2>
-    <p class="section-sub">Rol de las sedes en el desarrollo territorial. Haz clic en cada área para ver el detalle y marcar las funciones cumplidas. Tu avance se guarda automáticamente en este dispositivo.</p>
-    <input class="searchbox" id="searchFunc" placeholder="🔎 Buscar una función específica (ej. asistencia, matrícula, planillas...)" oninput="filterFunctions()">
-    <div class="progress-wrap">
-      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
-      <span id="progressText">0 / 0 completadas</span>
-      <button class="resetBtn" onclick="resetChecklist()">↺ Reiniciar</button>
-    </div>
-    <div class="bento-grid" id="areasBento"></div>
-    <div class="area-detail" id="areaDetail"></div>
-
-    <div class="report-wrap">
-      <h3 class="section-title" style="font-size:16px; margin-bottom:10px;">📄 Reporte de cumplimiento</h3>
-      <div class="report-fields">
-        <div>
-          <label for="coordName">Nombre del coordinador(a)</label>
-          <input type="text" id="coordName" placeholder="Ej. Daniela López Vidal" oninput="saveCoordInfo()">
+        <div class="callout">
+          El formato exigido para la presentación del documento es la <strong>Norma Técnica Colombiana NTC 1486 de ICONTEC</strong>, vigente para trabajos escritos.
         </div>
-        <div>
-          <label for="coordSede">Sede</label>
-          <input type="text" id="coordSede" placeholder="Ej. Roldanillo" oninput="saveCoordInfo()">
+      </section>
+
+      <!-- 2 Estructura NTC -->
+      <section class="panel" data-panel="2">
+        <p class="eyebrow">Sección 2</p>
+        <h2>Estructura general del informe</h2>
+        <hr class="rule">
+        <p class="lede">Aplica a todos los programas. Resume las secciones exigidas por la NTC 1486 y qué debe incluir el informe en cada una.</p>
+        <div id="ntcTable"></div>
+      </section>
+
+      <!-- 3 Programas -->
+      <section class="panel" data-panel="3">
+        <p class="eyebrow">Sección 3</p>
+        <h2>Programas técnicos</h2>
+        <hr class="rule">
+        <p class="lede">El planteamiento del proyecto y las metas o puntos clave que el informe descriptivo debe evidenciar, para cada uno de los 7 programas técnicos.</p>
+        <div class="search-wrap">
+          <input type="text" id="progSearch" placeholder="Buscar programa técnico…">
         </div>
+        <div id="progList"></div>
+      </section>
+
+      <!-- 4 Checklist -->
+      <section class="panel" data-panel="4">
+        <p class="eyebrow">Sección 4</p>
+        <h2>Checklist del coordinador</h2>
+        <hr class="rule">
+        <p class="lede">Antes de dar el visto bueno a un informe final, confirmar cada punto.</p>
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-label" id="progressLabel">0 / 0</div>
+        </div>
+        <div id="checkList"></div>
+        <button class="reset-btn" id="resetChecklist">Reiniciar checklist</button>
+      </section>
+
+      <!-- 5 Errores -->
+      <section class="panel" data-panel="5">
+        <p class="eyebrow">Sección 5</p>
+        <h2>Errores comunes a evitar</h2>
+        <hr class="rule">
+        <p class="lede">Lo que con más frecuencia debilita un informe final, aun cuando la información de fondo esté completa.</p>
+        <div id="errorList"></div>
+      </section>
+
+      <!-- 6 Recursos -->
+      <section class="panel" data-panel="6">
+        <p class="eyebrow">Sección 6</p>
+        <h2>Recursos y enlaces</h2>
+        <hr class="rule">
+        <p class="lede">Formatos, plantillas y material de apoyo que se usan durante todo el proceso de la Etapa Práctica.</p>
+        <div id="resourceList"></div>
+      </section>
+
+      <div class="footnav">
+        <button id="prevBtn">← Anterior</button>
+        <button id="nextBtn">Siguiente →</button>
       </div>
-      <button class="reportBtn" onclick="generateReport()">📄 Descargar mi Reporte de Cumplimiento (PDF)</button>
+
     </div>
-  </section>
-
-  <!-- CENTRO DE RECURSOS -->
-  <section class="view" id="recursos">
-    <h2 class="section-title">🔗 Centro de Recursos / Enlaces Rápidos</h2>
-    <p class="section-sub">Formatos institucionales, plataformas y normativa que usas con más frecuencia, reunidos en un solo lugar.</p>
-
-    <h3 class="section-title" style="font-size:18px;">💻 Plataformas</h3>
-    <div class="home-grid" style="margin-bottom:28px;">
-      <a class="home-tile" href="https://campus.intep.edu.co/" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
-        <div class="icon-badge lg"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"/><path d="M4 19.5V6.5"/><path d="M8 8h8M8 12h8"/></svg></div>
-        <h4>Moodle</h4>
-        <p>campus.intep.edu.co</p>
-      </a>
-      <a class="home-tile" href="https://educa20.com/docente/intep/login.php" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
-        <div class="icon-badge lg gold"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v16M15 4v16"/></svg></div>
-        <h4>Software de notas</h4>
-        <p>educa20.com</p>
-      </a>
-      <a class="home-tile" href="https://intep.edu.co/portal/wp-content/uploads/2026/06/06-ACUERDO-No.-019_REGLAMENTO-ESTUDIANTIL_UNINTEP.pdf" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
-        <div class="icon-badge lg navy"><svg viewBox="0 0 24 24"><path d="M12 3v18M7 7l-4 6h8l-4-6ZM17 7l-4 6h8l-4-6Z"/><path d="M5 21h14"/></svg></div>
-        <h4>Reglamento Estudiantil</h4>
-        <p>Descargar PDF (Acuerdo N.º 019)</p>
-      </a>
-    </div>
-
-    <h3 class="section-title" style="font-size:18px;">📄 Formatos institucionales</h3>
-    <p class="section-sub" style="margin-top:-4px;">Estos formatos se solicitan directamente a la Unidad Académica / Coordinador local; aquí tienes su nombre, código de referencia y el enlace directo para consultarlos.</p>
-    <div class="grid-cards">
-      <div class="card">
-        <h3>📥 P04-FT-58</h3>
-        <p>Formulario Inscripción Pregrado V5.</p>
-        <a href="https://drive.google.com/file/d/11jUjCgt5_61zt9HDwpxWQ89cfpTnM1Ep/view?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver formato</a>
-      </div>
-      <div class="card">
-        <h3>📘 P04-FT-26</h3>
-        <p>Planeador de Aula V1 — se diligencia antes de iniciar clases, basado en los Resultados de Aprendizaje (RA).</p>
-        <a href="https://docs.google.com/document/d/1GzRfMV99B_S_-vD0aU8ejTbbwTGONZBn/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver formato</a>
-      </div>
-      <div class="card">
-        <h3>📗 P04-FT-24</h3>
-        <p>Acuerdo Aula y Socialización Syllabus V1 — se diligencia en la primera clase del semestre, firmado por los estudiantes.</p>
-        <a href="https://docs.google.com/document/d/13POEywpObxuuLc97B8XtrTvEI_odZ-q0/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver formato</a>
-      </div>
-      <div class="card">
-        <h3>📐 P04-G-03 Guía Elaboración Planeador V1</h3>
-        <p>Instructivo de referencia para diligenciar correctamente el Planeador de Aula (P04-FT-26).</p>
-        <a href="https://drive.google.com/file/d/1XfqLMWu71fZEd1EDxfogD2vJJ_UidBaG/view?usp=drive_link" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver guía</a>
-      </div>
-      <div class="card">
-        <h3>🗂️ Asignación académica</h3>
-        <p>Consulta la asignación académica vigente por docente y asignatura.</p>
-        <a href="https://docs.google.com/spreadsheets/d/1Hy9fDckkpTkae8n8tali6uxWQi0P6vUd/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver asignación</a>
-      </div>
-      <div class="card">
-        <h3>✏️ Modificaciones y adiciones</h3>
-        <p>Formato para reportar modificaciones y adiciones a la asignación académica.</p>
-        <a href="https://docs.google.com/spreadsheets/d/1oXIOu85tnFF920uQH1CL6CEz7OcVYUvF/edit?usp=sharing&ouid=102388891690994386474&rtpof=true&sd=true" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver formato</a>
-      </div>
-      <div class="card">
-        <h3>📙 Planilla de Socialización de Notas</h3>
-        <p>Se entrega firmada por los estudiantes al director y/o coordinador encargado, al finalizar el semestre.</p>
-        <!-- TODO: reemplazar este comentario por el link real, con el mismo formato del botón de arriba:
-        <a href="AQUI_VA_EL_LINK_PLANILLA_NOTAS" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver formato</a>
-        -->
-      </div>
-      <div class="card">
-        <h3>🧭 Guía de prácticas</h3>
-        <p>Instructivo de referencia para el desarrollo de la etapa práctica de los estudiantes.</p>
-        <a href="https://drive.google.com/file/d/1YlUTFTMGlx0-OWlzpMTZXsd_zOSS0WWR/view?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver guía</a>
-      </div>
-      <div class="card">
-        <h3>🚌 Gastos de movilidad</h3>
-        <p>Formato para la solicitud y reporte de gastos de movilidad de la coordinación.</p>
-          <a href="https://docs.google.com/spreadsheets/d/1Vzv7f7c-wCHOMQ3bLRjBS8CcFI7WQaDq/edit?usp=sharing&ouid=102388891690994386474&rtpof=true&sd=true" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver formato</a>
-    
-      </div>
-      <div class="card">
-        <h3>🖼️ Plantilla de diapositivas</h3>
-        <p>Plantilla institucional para presentaciones y sustentaciones. Al hacer clic, la descarga inicia directamente.</p>
-        <a href="https://docs.google.com/presentation/d/1V9fchBrtcILK_WMw5RxdXdKKRoUiCdag/export/pptx" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">⬇️ Descargar plantilla</a>
-      </div>
-    </div>
-
-    <h3 class="section-title" style="font-size:18px;">🎓 Planes de estudio</h3>
-    <p class="section-sub" style="margin-top:-4px;">Programas de las 3 unidades académicas, con su plan de estudio en niveles técnico, tecnológico y profesional.</p>
-
-    <p class="section-sub" style="margin-bottom:6px;"><b>Unidad de Ciencias Ambientales y Agropecuaria</b></p>
-    <div class="grid-cards">
-      <div class="card">
-        <h3>🌱 Profesional en Agroindustria</h3>
-        <p>Plan de estudio del programa, niveles técnico, tecnológico y profesional.</p>
-        <a href="https://docs.google.com/spreadsheets/d/1WfiDa9JT2neT3lb9wKwKk0xFnpfG34vV/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver plan de estudio</a>
-      </div>
-      <div class="card">
-        <h3>🚜 Administración Agropecuaria</h3>
-        <p>Plan de estudio del programa, niveles técnico, tecnológico y profesional.</p>
-        <a href="https://docs.google.com/spreadsheets/d/1NWvOthRXYhiQn6Ok7Fy3QJsSxDiqaqPa/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver plan de estudio</a>
-      </div>
-      <div class="card">
-        <h3>🌎 Administración Ambiental</h3>
-        <p>Plan de estudio del programa, niveles técnico, tecnológico y profesional.</p>
-        <a href="https://docs.google.com/spreadsheets/d/1NLFTPaOVAzMI3CP1Mp0SOEDlpY9xJKkx/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver plan de estudio</a>
-      </div>
-    </div>
-
-    <p class="section-sub" style="margin-bottom:6px;"><b>Unidad de Administración y Contaduría</b></p>
-    <div class="grid-cards">
-      <div class="card">
-        <h3>📊 Contaduría Pública</h3>
-        <p>Plan de estudio del programa, niveles técnico, tecnológico y profesional.</p>
-        <a href="https://docs.google.com/spreadsheets/d/15Dxu18vjbwIkXSmCAVFArHDlq2PXXiVr/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver plan de estudio</a>
-      </div>
-      <div class="card">
-        <h3>💼 Administración de Empresas</h3>
-        <p>Plan de estudio del programa, niveles técnico, tecnológico y profesional.</p>
-        <a href="https://docs.google.com/spreadsheets/d/1rlTmLs3uV7eH3KnsHeo5FdqTMsOFc2Yw/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver plan de estudio</a>
-      </div>
-    </div>
-
-    <p class="section-sub" style="margin-bottom:6px;"><b>Unidad de Sistemas y Electricidad</b></p>
-    <div class="grid-cards">
-      <div class="card">
-        <h3>🖥️ Profesional en Diseño Visual Digital</h3>
-        <p>Plan de estudio del programa, niveles técnico, tecnológico y profesional.</p>
-        <!-- <a href="https://intep.edu.co/portal/unidad-de-sistemas-y-electricidad/profesional-en-diseno-visual-digital-codigo-snies-110608/" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--navy); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">ℹ️ Ver información del programa</a> -->
-        <a href="https://docs.google.com/spreadsheets/d/1ysR-VvMiW34sM6PU0sCdObVWna_C1RN3/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:8px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver plan de estudio</a>
-      </div>
-      <div class="card">
-        <h3>💻 Ingeniería Informática</h3>
-        <p>Plan de estudio del programa, niveles técnico, tecnológico y profesional.</p>
-        <!-- <a href="https://intep.edu.co/portal/unidad-de-sistemas-y-electricidad/ingenieria-informatica-snies-111554/" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; background:var(--navy); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">ℹ️ Ver información del programa</a> -->
-        <a href="https://docs.google.com/spreadsheets/d/1ztAsZoXyWHIvYiT_E19YkBwkzRP9O8LS/edit?usp=sharing" target="_blank" rel="noopener" style="display:inline-block; margin-top:8px; background:var(--teal); color:#fff; padding:6px 14px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;">📄 Ver plan de estudio</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer>UNINTEP · Vicerrectoría Académica · Documento interactivo de socialización para Coordinadores de Sede</footer>
-
-<!-- CONTENEDOR DE REPORTE (solo se muestra al imprimir/descargar el PDF) -->
-<div id="printReport">
-  <div class="rp-header"><img src="membrete-header.png" alt="Membrete UNINTEP"></div>
-  <div class="rp-body">
-    <div class="rp-title">
-      <h1>Reporte de Cumplimiento — Coordinador de Sede</h1>
-      <p>Vicerrectoría Académica · UNINTEP</p>
-    </div>
-    <div class="rp-meta">
-      <span id="rpName">Coordinador(a): —</span>
-      <span id="rpSede">Sede: —</span>
-      <span id="rpDate">Fecha: —</span>
-    </div>
-    <div class="rp-overall">
-      <div class="pct" id="rpOverallPct">0%</div>
-      <div id="rpOverallCount">0 / 0 funciones completadas</div>
-    </div>
-    <div id="rpAreas"></div>
-  </div>
-  <div class="rp-footer">
-    <p class="rp-footer-note">Reporte generado automáticamente desde el Portal del Coordinador de Sede · UNINTEP</p>
-    <img src="membrete-footer.png" alt="Pie de página UNINTEP">
   </div>
 </div>
 
-
 <script>
-// ---------- DATA ----------
-const principios = [
-  {t:"Respeto por la calidad humana", d:"UNINTEP es una comunidad educativa de personas unidas por objetivos comunes, lo cual impone responsabilidades y derechos recíprocos. La actuación de los miembros de la comunidad académica se basará en relaciones armónicas fundamentadas en el respeto al otro y en la mutua confianza."},
-  {t:"Flexibilidad", d:"UNINTEP asume la flexibilidad, en sus diferentes expresiones académica, curricular, pedagógica y administrativa, como un proceso cambiante que exige permanentes transformaciones de acuerdo a las necesidades del contexto, para llevar adelante los propósitos de la formación integral de profesionales altamente capacitados."},
-  {t:"Pertinencia", d:"UNINTEP considera la pertinencia como la concordancia entre las finalidades, metas, principios y objetivos del referencial de formación con el referencial laboral surgido de las necesidades del entorno."},
-  {t:"Responsabilidad social", d:"UNINTEP hace parte de la comunidad y, por tanto, debe asumir los compromisos que le competen a todos sus integrantes y contribuir en la medida de sus posibilidades a apoyarlos en el mejoramiento de su calidad de vida."},
-  {t:"Autogestión – Autonomía", d:"Entendida como la autodeterminación en los asuntos del ordenamiento interno: académico, legal y administrativo."},
-  {t:"Calidad e Investigación permanentes", d:"UNINTEP, dentro de la cultura organizacional, promueve la calidad, entendida como una cualidad que permite implementar y evaluar los procesos, métodos, instrumentos y logros de la institución de acuerdo a estándares e indicadores internos y externos, posibilitando el mejoramiento continuo que exige una permanente dinámica de formación académica, investigativa e innovadora para afrontar los cambios del mundo."},
-  {t:"Trascendencia institucional", d:"UNINTEP busca alcanzar niveles superiores de desarrollo que le permitan permanecer en la conciencia colectiva de la comunidad local, regional, nacional e internacional."}
+/* ---------------- DATA ---------------- */
+const STEPS = [
+  "Inicio",
+  "Informe descriptivo",
+  "Estructura NTC 1486",
+  "Programas técnicos",
+  "Checklist del coordinador",
+  "Errores comunes",
+  "Recursos y enlaces"
 ];
 
-const valores = [
-  {t:"Honestidad", d:"Expresada en la coherencia entre las acciones y los requerimientos éticos, sociales y organizacionales promulgados por la comunidad educativa."},
-  {t:"Respeto", d:"Comprendido como el valor universal que garantiza la convivencia y la aceptación de las diferencias entre los miembros de la comunidad académica y educativa."},
-  {t:"Compromiso", d:"Expresado en actividades desarrolladas por diferentes personas que aportan desde sus potencialidades y se comprometen al objetivo común de manera coordinada y articulada."},
-  {t:"Diligencia", d:"Expresada en el cumplimiento de los deberes, funciones y responsabilidades asignadas de la mejor manera posible, con atención, prontitud y eficiencia, para así optimizar el uso de los recursos del Estado."},
-  {t:"Justicia", d:"Comprendida como la actuación con imparcialidad garantizando los derechos de las personas, con equidad, igualdad y sin discriminación."},
-  {t:"Liderazgo", d:"Expresado en la capacidad de convocar y desarrollar las capacidades y potencialidades propias y de otros, lo cual permite ser más autónomos y autogestionarios."},
-  {t:"Sentido de pertenencia", d:"Expresada en el reconocimiento del propio entorno como patrimonio común, con el cual hay que comprometerse. Promueve el reconocimiento de los bienes colectivos como propios, conservándolos, reconstruyéndolos y colaborando con su desarrollo."}
+const NTC = [
+  ["Cubierta, portada y hoja de aceptación", "Verificar que se incluyan los tres elementos preliminares exigidos por la NTC 1486 (identificación institucional, datos del estudiante, del programa y de la empresa, y espacio de aceptación del informe)."],
+  ["Tabla de contenido", "Confirmar que refleje fielmente los títulos y la paginación real del documento entregado."],
+  ["Introducción", "Debe presentar el trabajo: su importancia, sus alcances y la forma como se realizó. No debe adelantar resultados ni conclusiones."],
+  ["Justificación", "Debe responder con claridad a por qué y para qué se hizo el trabajo, y a quiénes beneficia, situándolo en el ámbito social y académico."],
+  ["Objetivo general", "Un solo enunciado, redactado con verbo en infinitivo, que recoja la integralidad del trabajo (qué, dónde, con quién y para qué)."],
+  ["Objetivos específicos", "Metas concretas y verificables que, en conjunto, permiten alcanzar el objetivo general. Deben ser coherentes con las metas o puntos clave propios del programa técnico."],
+  ["Descripción de la práctica — Presentación de la empresa", "Razón social, dirección, propietario, actividad comercial, misión, visión y políticas de la organización donde se realizó (o de la empresa creada, en programas orientados a emprendimiento)."],
+  ["Descripción de la práctica — Desarrollo de las actividades", "Narración detallada de lo realizado, organizada preferiblemente por objetivos específicos (también puede ser por semanas o por actividades). Este es el punto donde debe verificarse con mayor cuidado el carácter puramente descriptivo del texto."],
+  ["Resultados", "Debe explicitar si cada objetivo específico se logró o no, y cómo. Suele acompañarse de un reporte del porcentaje de avance por objetivo."],
+  ["Conclusión", "Qué encontró el estudiante en su experiencia práctica y cómo le pareció el proceso. No debe confundirse con los resultados."],
+  ["Recomendaciones", "Deben dirigirse a los tres públicos previstos: próximos practicantes, la empresa y el INTEP."],
+  ["Bibliografía", "De inclusión obligatoria; da credibilidad al trabajo. Verificar que las fuentes citadas correspondan a lo referenciado en el cuerpo del informe."],
+  ["Anexos", "Evidencias, formatos, registros fotográficos u otros soportes que complementen —sin sustituir— la descripción de la práctica."]
 ];
 
-// ---------- ICONOS SVG (sustituyen los emojis genéricos) ----------
-const MASCOT_ICONS = {
-  admisiones: '<img src="mascota-admisiones.png" alt="">',
-  matricula: '<img src="mascota-matricula.png" alt="">',
-  seguimiento: '<img src="mascota-seguimiento.png" alt="">',
-  docente: '<img src="mascota-docente.png" alt="">',
-  bienestar: '<img src="mascota-bienestar.png" alt="">',
-  recursos: '<img src="mascota-recursos.png" alt="">',
-  reportes: '<img src="mascota-reportes.png" alt="">',
-  reuniones: '<img src="mascota-reuniones.png" alt="">',
-  normativo: '<img src="mascota-normativo.png" alt="">'
-};
-function areaIcon(id, cls=''){
-  return `<span class="mascot-badge ${cls}">${MASCOT_ICONS[id]||''}</span>`;
-}
-
-const areas = [
+const PROGRAMS = [
   {
-    id:"admisiones", emoji:"📋", nombre:"Admisiones",
-    items:[
-      "Promover la publicidad y el mercadeo para los programas a ofertar de acuerdo a los lineamientos institucionales.",
-      "Brindar la información al aspirante: informar sobre los requisitos y costos del proceso de inscripción, recordando que la documentación debe entregarse completa, ya que este es el requisito para dar inicio al proceso.",
-      "En la sede principal el proceso de inscripción es dirigido por ventanilla única; en el caso de las sedes, remitir a la Oficina de Órdenes de Pago de UNINTEP el reporte de estudiantes inscritos con su información completa de acuerdo a la plantilla y en la fecha establecida, con el fin de expedir el recibo de inscripción y posteriormente el de matrícula.",
-      "Diligenciar el formulario físico: el aspirante debe hacerlo de forma completa, clara y legible, evitando tachones, enmendaduras o información incompleta.",
-      "Recepcionar los requisitos exigidos para el proceso de inscripción de nuevos estudiantes (documentación completa).",
-      "Realizar la inscripción en la plataforma virtual: la información ingresada debe ser exactamente la misma que aparece en el formulario físico.",
-      "Cargar la documentación digital: subir los documentos escaneados uno por uno en formato PDF, verificando que sean completamente legibles; la fotografía del aspirante debe cargarse en formato JPG, con buena calidad y nitidez.",
-      "Sincronizar la inscripción: una vez validada toda la documentación física y digital, se realiza la sincronización del aspirante en el sistema, quedando su estado registrado oficialmente como inscrito."
+    tag: "Programa 1",
+    name: "Técnico Profesional en Procesos Agroindustriales",
+    planteamiento: "Adelantar un proyecto productivo de valor agregado a materias primas agrícolas y pecuarias, relacionado con la propuesta desarrollada en la asignatura de tercer semestre \"Fundamentos básicos en la elaboración del Proyecto Profesional\".",
+    puntos: [
+      "Diagnóstico frente a las condiciones del entorno agroindustrial para el establecimiento y desarrollo del proyecto.",
+      "Organización administrativa del proceso productivo y administrativo según la propuesta.",
+      "Cálculo de costos totales y unitarios de producción, y determinación de precios de venta.",
+      "Descripción del proceso de comercialización, considerando oferta y demanda.",
+      "Descripción de labores de formulación, diagramas de proceso y descripción de la producción.",
+      "Determinación y descripción de las actividades de control de calidad y almacenamiento del producto terminado.",
+      "Propuestas de manejo y disposición final de subproductos y residuos generados.",
+      "Descripción de las condiciones de las materias primas seleccionadas."
     ]
   },
   {
-    id:"matricula", emoji:"📝", nombre:"Matrícula",
-    items:[
-      "Los estudiantes antiguos que hayan cursado y cumplido académicamente con el 100% de la carga académica matriculada durante el semestre inmediatamente anterior tendrán la renovación de su matrícula de manera automática.",
-      "En caso de que el estudiante presente asignaturas pendientes, deberá solicitar la orden de matrícula a la Unidad Académica correspondiente o al Coordinador de sede; posteriormente, dicha orden deberá ser remitida al área de Órdenes de Pago para generar el respectivo valor de matrícula.",
-      "Los estudiantes que únicamente deban cursar hasta tres (3) asignaturas deberán cancelar el valor establecido en la tabla de Derechos Pecuniarios vigente de UNINTEP, de conformidad con el Reglamento Estudiantil.",
-      "Una vez generado el recibo, el pago de la matrícula podrá realizarse a través de la página web institucional, ingresando a la ruta Servicios en Línea → Pago en Línea; el estudiante deberá digitar su número de documento para consultar y realizar el pago del valor correspondiente por los medios digitales.",
-      "Los estudiantes que, por cualquier motivo, no cumplan con los requisitos establecidos para acceder a la Política de Gratuidad deberán asumir el valor total de la matrícula correspondiente al período académico, de acuerdo con los derechos pecuniarios vigentes."
+    tag: "Programa 2",
+    name: "Técnico Profesional en Producción Agropecuaria",
+    planteamiento: "Diseñar, organizar y justificar procesos productivos agropecuarios, integrando conocimientos técnicos sobre el manejo de sistemas productivos, la planificación, los costos y la rentabilidad, asegurando la viabilidad y sostenibilidad de los procesos.",
+    puntos: [
+      "Manejo de los sistemas productivos, agrícola o pecuario.",
+      "Aplicación de variables económicas del sector para la administración de los procesos.",
+      "Propuesta de condiciones de producción agroecológica o procesos sostenibles.",
+      "Argumentación escrita de los resultados de los procesos de producción."
     ]
   },
   {
-    id:"seguimiento", emoji:"📊", nombre:"Seguimiento académico y estudiantil",
-    items:[
-      "Mantener actualizada la base de datos de los estudiantes, por grupo y por programa, con información personal básica y datos de contacto (celular y correo institucional y personal) para una comunicación oportuna.",
-      "Solicitar a la Unidad correspondiente los resúmenes sobre el estado académico de los estudiantes con el fin de informar a tiempo a cada estudiante la situación actual.",
-      "Programar habilitaciones de acuerdo con el calendario académico.",
-      "Realizar seguimiento a estudiantes frente a situaciones académicas (ausencia, deserción, rendimiento) y comportamentales (actitud, relaciones interpersonales y grupales), reportándolas a la unidad correspondiente para generar procesos de intervención y prevenir la deserción.",
-      "Al final del semestre, solicitar el formato de socialización de notas a la sede Roldanillo, recolectar las planillas de calificaciones y entregarlas a la respectiva Unidad Académica.",
-      "Verificar que los asistentes a clases estén MATRICULADOS (financiera y académicamente). Reportar estudiantes que asisten y no están en los listados oficiales, y estudiantes que están en el listado pero no asisten (informe de deserción; el estudiante debe enviar carta de cancelación del semestre para evitar quedar en bajo rendimiento)."
+    tag: "Programa 3",
+    name: "Técnico Profesional en Promotoría Ambiental",
+    planteamiento: "Identificar situaciones dentro de las comunidades y organizaciones que permitan ejecutar actividades de educación ambiental, integrando proyectos para el manejo adecuado de los recursos naturales y técnicas de producción limpia en programas de seguridad alimentaria.",
+    puntos: [
+      "Apoyo a la planeación y desarrollo de programas y proyectos de educación ambiental, como soporte técnico y administrativo.",
+      "Ejecución de actividades de prevención y mitigación orientadas a la conservación de recursos naturales.",
+      "Diagnóstico de las condiciones ambientales del entorno (riesgos y oportunidades).",
+      "Organización administrativa clara del proyecto ambiental.",
+      "Evaluación de costos y recursos necesarios para la ejecución del proyecto.",
+      "Estrategias de sensibilización y participación comunitaria.",
+      "Planificación, flujogramas y descripción de las actividades ambientales.",
+      "Monitoreo, evaluación ambiental y gestión adecuada de residuos y subproductos.",
+      "Argumentación de resultados y actividades mediante informe escrito y sustentación oral."
     ]
   },
   {
-    id:"docente", emoji:"👨‍🏫", nombre:"Gestión docente",
-    items:[
-      "Verificar diariamente la asistencia a clase de los docentes y el cumplimiento de la jornada académica según los horarios establecidos; reportar inasistencias a la Unidad Académica respectiva.",
-      "Garantizar que los docentes cumplan con el desarrollo de sus clases y los tiempos de evaluación según el plan de aula acordado en la primera clase.",
-      "Mantener contacto permanente con los docentes para conocer con anticipación las necesidades logísticas de sus clases: sala de cómputo, videoproyectores, software especializado, entre otros.",
-      "Garantizar que, el primer día de clase, cada docente diligencie el Formato Acuerdo de Aula y socialice el Syllabus; debe ser digitalizado y cargado en el enlace habilitado por cada Unidad Académica / Coordinador local. Así mismo, se realiza seguimiento a la asistencia del docente, la asistencia de los estudiantes, la entrega física del plan de aula y la socialización física del syllabus firmada por los estudiantes.",
-      "Realizar de manera mensual el reporte de horas dictadas por cada docente según el control de asistencia, en las fechas y formato indicados por la Unidad Académica (generalmente antes del día 9 de cada mes)."
+    tag: "Programa 4",
+    name: "Técnico Profesional en Procesos Administrativos",
+    planteamiento: "Adelantar un proyecto con base en el proyecto integrador, exponiendo idea de negocio, viabilidad, análisis de la legislación aplicable, estrategia de marketing con análisis DOFA, estructura organizacional y análisis financiero preliminar (costos, ingresos estimados y rentabilidad).",
+    puntos: [
+      "Definición formal de la idea de negocio y estructuración de la presentación comercial del producto o servicio.",
+      "Estudio de viabilidad técnica y comercial de la propuesta.",
+      "Análisis del marco legal y la legislación aplicable a la actividad del emprendimiento.",
+      "Elaboración de la matriz DOFA y formulación de estrategias corporativas.",
+      "Diseño de la estrategia de marketing digital y tradicional para la promoción del producto o servicio.",
+      "Estructuración del diseño organizacional, funciones y jerarquías.",
+      "Análisis financiero preliminar: proyecciones de costos, ingresos estimados y rentabilidad."
     ]
   },
   {
-    id:"bienestar", emoji:"🤝", nombre:"Bienestar y convivencia",
-    items:[
-      "Coordinar con el equipo de Bienestar Universitario los conversatorios de seguimiento.",
-      "Coordinar (con Bienestar Universitario) la elección del representante de cada grupo y mantener comunicación constante con cada representante para el manejo de situaciones que se presenten en el desarrollo académico.",
-      "Tener conocimiento y desarrollar la programación de los cursos de bienestar, tutorías, habilitaciones, cursos de nivelación y demás programas complementarios."
+    tag: "Programa 5",
+    name: "Técnico Profesional en Contabilidad y Costos",
+    planteamiento: "Sistematizar e integrar, a través de Siigo Nube, el proyecto integrador, asegurando la correcta gestión financiera y contable del proyecto.",
+    puntos: [
+      "Configuración y parametrización de los datos iniciales y operativos de la empresa en Siigo Nube.",
+      "Creación y estructuración del catálogo o plan de cuentas según las necesidades de la organización.",
+      "Registro sistemático y oportuno de los hechos económicos, ingresos y egresos de la operación.",
+      "Estructuración y control del presupuesto financiero enfocado en la gestión de costos.",
+      "Generación y evaluación de los estados financieros automáticos (Balance General y Estado de Resultados).",
+      "Cumplimiento normativo y control financiero mediante herramientas tecnológicas contables."
     ]
   },
   {
-    id:"recursos", emoji:"🏫", nombre:"Recursos e infraestructura",
-    items:[
-      "Verificar antes de iniciar las clases que los salones cuenten con energía, aseo y los recursos de aprendizaje solicitados por los docentes.",
-      "Hacerse cargo y velar por el buen estado de los bienes y activos que reposan en la sede, reportando las necesidades y daños que se presenten."
-    ]
+    tag: "Programa 6",
+    name: "Técnico Profesional en Soporte de Sistemas Informáticos y Redes",
+    planteamiento: "Desarrollar e implementar una solución tecnológica para una problemática identificada, optimizando procesos. Puede enfocarse en seguridad informática, mantenimiento de hardware y software, o gestión de redes, asegurando una operación eficiente y segura de los sistemas.",
+    puntos: [
+      "Identificación y diagnóstico detallado de la problemática o necesidad operativa del entorno seleccionado.",
+      "Levantamiento y análisis de los requerimientos técnicos y funcionales de la solución.",
+      "Diseño de la estructura, arquitectura e interfaces de la solución mediante diagramas, esquemas o mapas de navegación.",
+      "Desarrollo y construcción del prototipo (funcional, digital o de alta fidelidad).",
+      "Evaluación y validación del prototipo mediante pruebas de concepto iniciales, demostrando la optimización esperada."
+    ],
+    prototipo: true
   },
   {
-    id:"reportes", emoji:"📝", nombre:"Reportes e informes",
-    items:[
-      "Reportar a tiempo y por escrito a la Unidad Académica respectiva, con copia a vice.academica@intep.edu.co, cualquier inquietud de índole personal, académica o de logística por parte de estudiantes, docentes o coordinación, para responder con soluciones concretas e inmediatas en lo posible."
-    ]
-  },
-  {
-    id:"reuniones", emoji:"📅", nombre:"Reuniones y disponibilidad institucional",
-    items:[
-      "Asistir a todas las reuniones programadas por la institución y estar presto a atender cualquier situación que se presente durante el desarrollo del semestre.",
-      "Estar presente durante todo el desarrollo de las jornadas de clases de acuerdo con la oferta de los programas de la respectiva sede."
-    ]
-  },
-  {
-    id:"normativo", emoji:"⚖️", nombre:"Normativo",
-    items:[
-      "Tener conocimiento del Reglamento Estudiantil del UNINTEP, disponible para consulta y descarga directa.<br><a href=\"https://intep.edu.co/portal/wp-content/uploads/2026/06/06-ACUERDO-No.-019_REGLAMENTO-ESTUDIANTIL_UNINTEP.pdf\" target=\"_blank\" rel=\"noopener\" style=\"display:inline-block; margin-top:8px; background:var(--teal); color:#fff; padding:7px 16px; border-radius:20px; font-size:12.5px; font-weight:700; text-decoration:none;\">📄 Descargar Reglamento Estudiantil (PDF)</a>"
-    ]
-  },
-  {
-    id:"derechos-grado", emoji:"🎓", nombre:"Derechos de grado",
-    items:[]
+    tag: "Programa 7",
+    name: "Técnico Profesional en Expresión Gráfica y Digital",
+    planteamiento: "Implementar en una empresa, negocio o emprendimiento la imagen corporativa (identidad visual, logotipos, tipografías, paletas de color) y/o ilustración digital para redes sociales orientada a campañas y comunicación visual efectiva.",
+    puntos: [
+      "Diseño y desarrollo de la identidad visual de una empresa u organización, aplicando principios del diseño gráfico.",
+      "Creación de ilustraciones digitales que refuercen la presencia de marca en redes sociales.",
+      "Aplicación de marketing digital para optimizar la difusión de la imagen o ilustración en plataformas sociales.",
+      "Gestión y organización del proyecto de diseño, garantizando coherencia visual y calidad técnica.",
+      "Diagnóstico de la marca o empresa: necesidades y oportunidades de mejora.",
+      "Organización administrativa del proyecto de diseño (recursos y tiempos).",
+      "Desarrollo de propuestas de diseño coherentes con los objetivos de marca.",
+      "Descripción del proceso creativo (conceptualización a ejecución) mediante diagramas de flujo y moodboards.",
+      "Control de calidad y revisión del diseño; propuestas de optimización y reutilización de recursos gráficos.",
+      "Descripción de las condiciones técnicas y estéticas de la producción final."
+    ],
+    prototipo: true
   }
 ];
 
-// ---------- TABS ----------
-function showView(view){
-  document.querySelectorAll('section.view').forEach(s=>s.classList.remove('active'));
-  document.getElementById(view).classList.add('active');
-  document.querySelectorAll('nav.tabs button').forEach(b=>{
-    b.classList.toggle('active', b.dataset.view===view);
-  });
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-document.querySelectorAll('nav.tabs button').forEach(b=>{
-  b.addEventListener('click', ()=>showView(b.dataset.view));
+const CHECKLIST = [
+  "El documento sigue la estructura completa de la NTC 1486 (cubierta, portada, hoja de aceptación, tabla de contenido, introducción, justificación, objetivos, descripción de la práctica, conclusión, recomendaciones, bibliografía y anexos).",
+  "El texto es predominantemente descriptivo: narra hechos y actividades, sin interpretaciones ni análisis profundos.",
+  "Los objetivos específicos guardan coherencia con las metas o puntos clave propios del programa técnico del estudiante.",
+  "El desarrollo de actividades está organizado por objetivos, semanas o actividades, y permite reconstruir lo que efectivamente se hizo.",
+  "La sección de resultados indica, para cada objetivo específico, si se logró o no y cómo.",
+  "La conclusión recoge la valoración personal del estudiante sobre la experiencia, sin duplicar la sección de resultados.",
+  "Las recomendaciones cubren los tres públicos: próximos practicantes, la empresa y el INTEP.",
+  "La bibliografía está incluida y corresponde a las fuentes citadas en el cuerpo del informe.",
+  "Se anexa el prototipo correspondiente y guarda relación directa con el planteamiento del proyecto."
+];
+
+const RESOURCES = [
+  {
+    title: "Reporte de asesorías",
+    desc: "Formato que deben usar los docentes para reportar cada asesoría realizada durante la Etapa Práctica.",
+    action: "Abrir formulario",
+    url: "https://forms.gle/qBzgnkr6Wzb8idSGA"
+  },
+  {
+    title: "Plantilla del informe final",
+    desc: "Documento base con el formato exigido (NTC 1486) para que el estudiante elabore su informe final.",
+    action: "Abrir plantilla",
+    url: "https://docs.google.com/document/d/1ndndn2Va9LI85ONO9ej_aTMjDbauFAAp/edit?usp=sharing&ouid=101233569868023663684&rtpof=true&sd=true"
+  },
+  {
+    title: "Asignación docente",
+    desc: "Consulta qué docente tiene a cargo el acompañamiento de cada estudiante o grupo de estudiantes.",
+    action: "Abrir asignación",
+    url: "https://docs.google.com/spreadsheets/d/15Er33E367BZi7dNT0HrDf7SvoXXrJA8c/edit?usp=sharing&ouid=101233569868023663684&rtpof=true&sd=true"
+  },
+  {
+    title: "Guía del informe final",
+    desc: "Material de apoyo con las indicaciones completas para la elaboración del informe final.",
+    action: "Abrir guía",
+    url: "https://drive.google.com/file/d/1np1FMz97S5UI-gNvVzg4_FPgdQqZJGnl/view?usp=sharing"
+  }
+];
+
+const ERRORS = [
+  "Redactar la introducción o el desarrollo de actividades como un análisis argumentativo, perdiendo el carácter descriptivo exigido.",
+  "Omitir alguna de las secciones de la NTC 1486, especialmente la hoja de aceptación o la tabla de contenido.",
+  "Presentar objetivos específicos genéricos, sin relación con las metas o puntos clave propios del programa técnico.",
+  "Confundir resultados con conclusión, o presentar resultados sin indicar el logro (o no logro) de cada objetivo.",
+  "Dirigir las recomendaciones a un solo público (por ejemplo, solo a la empresa), dejando de lado al INTEP o a los próximos practicantes.",
+  "Entregar el informe sin bibliografía, o con referencias que no corresponden a las citadas en el texto."
+];
+
+/* ---------------- RENDER ---------------- */
+const stepNavEl = document.getElementById('stepNav');
+STEPS.forEach((label, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'step-btn';
+  btn.dataset.step = i;
+  btn.innerHTML = `<span class="num">${i+1}</span><span>${label}</span>`;
+  btn.addEventListener('click', () => goTo(i));
+  stepNavEl.appendChild(btn);
 });
 
-// ---------- STEPPER (etapas del semestre) ----------
-function selectStep(i){
-  document.querySelectorAll('.step-node').forEach(n=> n.classList.toggle('active', Number(n.dataset.step)===i));
-  document.querySelectorAll('.step-panel').forEach(p=> p.classList.remove('open'));
-  document.getElementById('panel-'+i).classList.add('open');
-}
+const ntcTableEl = document.getElementById('ntcTable');
+NTC.forEach(([label, desc]) => {
+  const row = document.createElement('div');
+  row.className = 'ntc-row';
+  row.innerHTML = `<div class="label">${label}</div><div class="desc">${desc}</div>`;
+  ntcTableEl.appendChild(row);
+});
 
-// ---------- CARD BUILDERS (principios / valores) ----------
-function buildCards(containerId, data){
-  const c = document.getElementById(containerId);
-  c.innerHTML = data.map(d=>`
-    <div class="card">
-      <h3>${d.t}</h3>
-      <p>${d.d}</p>
-    </div>
-  `).join('');
-}
-buildCards('cards-principios', principios);
-buildCards('cards-valores', valores);
-
-// ---------- CHECKLIST STATE (persistido en este dispositivo) ----------
-const STORAGE_KEY = 'intep_coord_checklist_v1';
-function loadState(){
-  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
-}
-function saveState(state){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-
-// ---------- FUNCIONES POR AREA (bento grid + panel de detalle) ----------
-let openAreaIndex = null;
-
-function buildBento(filterText=""){
-  const container = document.getElementById('areasBento');
-  const f = filterText.trim().toLowerCase();
-  const state = loadState();
-  const matches = a => !f || a.nombre.toLowerCase().includes(f) || a.items.some(it=>it.toLowerCase().includes(f));
-
-  container.innerHTML = areas.map((a,ai)=>{
-    if(!matches(a)) return '';
-    const doneCount = a.items.filter((it,ii)=> state[`${ai}-${ii}`]).length;
-    const pct = a.items.length ? Math.round(doneCount/a.items.length*100) : 0;
-    return `
-    <div class="bento-card ${openAreaIndex===ai?'active':''}" id="bento-${ai}" onclick="openAreaDetail(${ai})">
-      <div class="bento-top">
-        ${areaIcon(a.id)}
-        <div class="arc" style="--pct:${pct}"><span class="arc-pct">${pct}%</span></div>
-      </div>
-      <h4>${a.nombre}</h4>
-      <span class="subcount">${doneCount} / ${a.items.length} completadas</span>
-    </div>`;
-  }).join('');
-
-  // si el área abierta ya no aparece en el filtro, cerrar el panel de detalle
-  if(openAreaIndex!==null && !matches(areas[openAreaIndex])){
-    closeAreaDetail();
-  } else if(openAreaIndex!==null){
-    renderAreaDetail(openAreaIndex, f);
+function renderPrograms(filter){
+  const list = document.getElementById('progList');
+  list.innerHTML = '';
+  const f = (filter || '').trim().toLowerCase();
+  const filtered = PROGRAMS.filter(p => p.name.toLowerCase().includes(f));
+  if(filtered.length === 0){
+    list.innerHTML = '<div class="no-results">No se encontró ningún programa con ese nombre.</div>';
+    return;
   }
+  filtered.forEach((p) => {
+    const item = document.createElement('div');
+    item.className = 'prog-item';
+    const puntosHtml = p.puntos.map(pt => `<li>${pt}</li>`).join('');
+    const protoHtml = p.prototipo
+      ? '<div class="proto-flag">✓ Incluye desarrollo de prototipo</div>' : '';
+    item.innerHTML = `
+      <button class="prog-head">
+        <span><span class="tag">${p.tag}</span><span class="name">${p.name}</span></span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="prog-body">
+        <p class="sub">Planteamiento del proyecto</p>
+        <p>${p.planteamiento}</p>
+        <p class="sub">Metas / puntos clave a evidenciar</p>
+        <ul>${puntosHtml}</ul>
+        ${protoHtml}
+      </div>`;
+    item.querySelector('.prog-head').addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+    list.appendChild(item);
+  });
+}
+renderPrograms('');
+document.getElementById('progSearch').addEventListener('input', (e) => renderPrograms(e.target.value));
+
+const checkListEl = document.getElementById('checkList');
+function renderChecklist(){
+  checkListEl.innerHTML = '';
+  CHECKLIST.forEach((text, i) => {
+    const row = document.createElement('label');
+    row.className = 'check-item';
+    row.innerHTML = `<input type="checkbox" data-i="${i}"><span>${text}</span>`;
+    checkListEl.appendChild(row);
+  });
+  Array.prototype.forEach.call(checkListEl.querySelectorAll('input'), function(cb){
+    cb.addEventListener('change', () => {
+      cb.closest('.check-item').classList.toggle('checked', cb.checked);
+      updateProgress();
+    });
+  });
   updateProgress();
-}
-
-function openAreaDetail(ai){
-  openAreaIndex = ai;
-  document.querySelectorAll('.bento-card').forEach(c=> c.classList.remove('active'));
-  const card = document.getElementById('bento-'+ai);
-  if(card) card.classList.add('active');
-  renderAreaDetail(ai, document.getElementById('searchFunc').value.trim().toLowerCase());
-  document.getElementById('areaDetail').scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-function closeAreaDetail(){
-  openAreaIndex = null;
-  const panel = document.getElementById('areaDetail');
-  panel.classList.remove('open');
-  panel.innerHTML = '';
-}
-
-function renderAreaDetail(ai, f=""){
-  const a = areas[ai];
-  const state = loadState();
-  const panel = document.getElementById('areaDetail');
-  const filteredIdx = a.items
-    .map((it,ii)=>({it,ii}))
-    .filter(o=> f ? o.it.toLowerCase().includes(f) : true);
-  const doneCount = a.items.filter((it,ii)=> state[`${ai}-${ii}`]).length;
-  const procesoHtml = a.proceso ? `
-    <div class="proceso-guide">
-      <h5>📝 ${a.proceso.titulo}</h5>
-      <ol class="proceso-steps">
-        ${a.proceso.pasos.map(p=>`<li><b>${p.t}.</b> ${p.d}</li>`).join('')}
-      </ol>
-    </div>` : '';
-  panel.classList.add('open');
-  panel.innerHTML = `
-    <h4 class="detail-title">${a.nombre}</h4>
-    <div class="detail-columns">
-      <div class="detail-illustration">${areaIcon(a.id)}</div>
-      <div class="detail-content">
-        <p class="detail-sub">${doneCount} / ${a.items.length} completadas</p>
-        ${filteredIdx.map(o=>{
-          const key = `${ai}-${o.ii}`;
-          const checked = !!state[key];
-          return `<div class="check-row">
-            <input type="checkbox" id="chk-${key}" ${checked?'checked':''} onchange="toggleCheck('${key}')">
-            <label for="chk-${key}" class="${checked?'done':''}" id="lbl-${key}">${o.it}</label>
-          </div>`;
-        }).join('') || '<p class="detail-sub">Sin coincidencias para tu búsqueda en esta área.</p>'}
-        ${procesoHtml}
-      </div>
-    </div>
-  `;
-}
-
-function toggleCheck(key){
-  const state = loadState();
-  state[key] = !state[key];
-  saveState(state);
-  const lbl = document.getElementById('lbl-'+key);
-  if(lbl) lbl.classList.toggle('done', state[key]);
-  updateProgress();
-  // recalcular arco y contador de la tarjeta bento correspondiente
-  const ai = key.split('-')[0];
-  const area = areas[ai];
-  const doneCount = area.items.filter((it,ii)=> state[`${ai}-${ii}`]).length;
-  const pct = area.items.length ? Math.round(doneCount/area.items.length*100) : 0;
-  const card = document.getElementById('bento-'+ai);
-  if(card){
-    card.querySelector('.arc').style.setProperty('--pct', pct);
-    card.querySelector('.arc-pct').textContent = pct+'%';
-    card.querySelector('.subcount').textContent = `${doneCount} / ${area.items.length} completadas`;
-  }
-  if(openAreaIndex!==null && String(openAreaIndex)===String(ai)){
-    const sub = document.querySelector('#areaDetail .detail-sub');
-    if(sub) sub.textContent = `${doneCount} / ${area.items.length} completadas`;
-  }
 }
 function updateProgress(){
-  const state = loadState();
-  let total = 0, done = 0;
-  areas.forEach((a,ai)=> a.items.forEach((it,ii)=>{
-    total++;
-    if(state[`${ai}-${ii}`]) done++;
-  }));
-  document.getElementById('progressText').textContent = `${done} / ${total} completadas`;
-  document.getElementById('progressFill').style.width = total? (done/total*100)+'%' : '0%';
+  const boxes = checkListEl.querySelectorAll('input');
+  const checked = checkListEl.querySelectorAll('input:checked').length;
+  document.getElementById('progressFill').style.width = (checked/boxes.length*100) + '%';
+  document.getElementById('progressLabel').textContent = `${checked} / ${boxes.length}`;
 }
-function filterFunctions(){
-  buildBento(document.getElementById('searchFunc').value);
+document.getElementById('resetChecklist').addEventListener('click', renderChecklist);
+renderChecklist();
+
+const errorListEl = document.getElementById('errorList');
+ERRORS.forEach((text, i) => {
+  const row = document.createElement('div');
+  row.className = 'error-item';
+  row.innerHTML = `<div class="mark">${i+1}</div><p>${text}</p>`;
+  errorListEl.appendChild(row);
+});
+
+const resourceListEl = document.getElementById('resourceList');
+RESOURCES.forEach((r) => {
+  const card = document.createElement('div');
+  card.className = 'resource-card';
+  card.innerHTML = `
+    <div class="resource-text">
+      <h3>${r.title}</h3>
+      <p>${r.desc}</p>
+    </div>
+    <a class="resource-btn" href="${r.url}" target="_blank" rel="noopener">${r.action} ↗</a>`;
+  resourceListEl.appendChild(card);
+});
+
+/* ---------------- NAVIGATION ---------------- */
+let current = 0;
+const panels = document.querySelectorAll('.panel');
+const navButtons = () => document.querySelectorAll('.step-btn');
+
+function goTo(i){
+  current = Math.max(0, Math.min(STEPS.length - 1, i));
+  Array.prototype.forEach.call(panels, function(p){ p.classList.toggle('active', +p.dataset.panel === current); });
+  Array.prototype.forEach.call(navButtons(), function(b){ b.classList.toggle('active', +b.dataset.step === current); });
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').textContent = current === STEPS.length - 1 ? 'Volver al inicio →' : 'Siguiente →';
+  document.getElementById('content').scrollTop = 0;
+  window.scrollTo(0,0);
+  closeSidebar();
 }
-function resetChecklist(){
-  if(confirm('¿Reiniciar todo el checklist de funciones?')){
-    localStorage.removeItem(STORAGE_KEY);
-    closeAreaDetail();
-    buildBento(document.getElementById('searchFunc').value);
-  }
-}
+document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+document.getElementById('nextBtn').addEventListener('click', () => {
+  goTo(current === STEPS.length - 1 ? 0 : current + 1);
+});
 
-// ---------- REPORTE DE CUMPLIMIENTO (PDF vía impresión del navegador) ----------
-const COORD_INFO_KEY = 'intep_coord_info_v1';
-function saveCoordInfo(){
-  const info = {
-    name: document.getElementById('coordName').value,
-    sede: document.getElementById('coordSede').value
-  };
-  localStorage.setItem(COORD_INFO_KEY, JSON.stringify(info));
-}
-function loadCoordInfo(){
-  try{
-    const info = JSON.parse(localStorage.getItem(COORD_INFO_KEY)) || {};
-    if(info.name) document.getElementById('coordName').value = info.name;
-    if(info.sede) document.getElementById('coordSede').value = info.sede;
-  }catch(e){}
-}
-function generateReport(){
-  const state = loadState();
-  const info = JSON.parse(localStorage.getItem(COORD_INFO_KEY) || '{}');
+/* Mobile sidebar */
+const sidebarEl = document.getElementById('sidebar');
+const overlayEl = document.getElementById('overlay');
+function openSidebar(){ sidebarEl.classList.add('open'); overlayEl.classList.add('open'); }
+function closeSidebar(){ sidebarEl.classList.remove('open'); overlayEl.classList.remove('open'); }
+document.getElementById('menuBtn').addEventListener('click', openSidebar);
+overlayEl.addEventListener('click', closeSidebar);
 
-  document.getElementById('rpName').textContent = 'Coordinador(a): ' + (info.name || '—');
-  document.getElementById('rpSede').textContent = 'Sede: ' + (info.sede || '—');
-  document.getElementById('rpDate').textContent = 'Fecha: ' + new Date().toLocaleDateString('es-CO', {day:'2-digit', month:'long', year:'numeric'});
-
-  let total = 0, done = 0;
-  const areasHtml = areas.map((a, ai) => {
-    const doneCount = a.items.filter((it, ii) => state[`${ai}-${ii}`]).length;
-    total += a.items.length; done += doneCount;
-    const pct = a.items.length ? Math.round(doneCount / a.items.length * 100) : 0;
-    const itemsHtml = a.items.map((it, ii) => {
-      const isDone = !!state[`${ai}-${ii}`];
-      return `<li class="${isDone ? 'done' : 'pending'}">${it}</li>`;
-    }).join('');
-    return `
-      <div class="rp-area">
-        <div class="rp-area-head"><span>${a.nombre}</span><span>${pct}% (${doneCount}/${a.items.length})</span></div>
-        <ul>${itemsHtml}</ul>
-      </div>`;
-  }).join('');
-
-  document.getElementById('rpAreas').innerHTML = areasHtml;
-  const overallPct = total ? Math.round(done / total * 100) : 0;
-  document.getElementById('rpOverallPct').textContent = overallPct + '%';
-  document.getElementById('rpOverallCount').textContent = `${done} / ${total} funciones completadas`;
-
-  window.print();
-}
-
-buildBento();
-loadCoordInfo();
+goTo(0);
 </script>
-
 </body>
 </html>
