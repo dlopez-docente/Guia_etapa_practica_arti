@@ -1023,6 +1023,10 @@ SOC.forEach(([label, desc], i) => {
 /* ---------------- SUSTENTACIONES ---------------- */
 let SUST = [];
 function sustInit(){
+  const tmin = t => { const m = String(t).match(/(\d+):(\d+)\s*([ap])/i); if(!m) return 0; let h = +m[1] % 12; if(m[3].toLowerCase()==='p') h += 12; return h*60 + +m[2]; };
+  const rk = r => r.f+'|'+r.jor+'|'+r.sala+'|'+r.s; const first = {};
+  SUST.forEach((r,i)=>{ if(!(rk(r) in first)) first[rk(r)] = i; });
+  SUST.sort((a,b)=> (first[rk(a)]-first[rk(b)]) || (tmin(a.hi)-tmin(b.hi)));
   const strip = s => (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
   const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const tc = s => (s||'').toLowerCase().replace(/(^|[\s-])(\S)/g,(m,a,b)=>a+b.toUpperCase());
