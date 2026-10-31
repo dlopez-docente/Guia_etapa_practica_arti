@@ -451,7 +451,8 @@
   }
 
   /* ---------- Sustentaciones ---------- */
-  .filters{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px; margin-bottom:18px; }
+  .filters{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1.4fr; gap:12px; margin-bottom:18px; }
+  .tag-p{ display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.03em; padding:1px 7px; border-radius:20px; background:#f4ead2; color:#7a5a17; margin-left:6px; vertical-align:middle; }
   .filters input, .filters select{
     width:100%; font-family:inherit; font-size:14.5px; padding:11px 14px;
     border:1px solid var(--line); border-radius:var(--radius); background:var(--paper); color:var(--ink);
@@ -642,35 +643,53 @@
       <!-- 6 Recursos -->
       <section class="panel" data-panel="6">
         <p class="eyebrow">Sección 6</p>
-        <h2>Recursos y enlaces</h2>
+        <h2>Formatos y seguimiento</h2>
         <hr class="rule">
         <p class="lede">Formatos, plantillas y material de apoyo que se usan durante todo el proceso de la Etapa Práctica.</p>
         <div id="resourceList"></div>
       </section>
 
 
-      <!-- 7 Sustentaciones -->
+      <!-- 7 Puntos para socialización -->
       <section class="panel" data-panel="7">
         <p class="eyebrow">Sección 7</p>
+        <h2>Puntos para socialización</h2>
+        <hr class="rule">
+        <p class="lede">Estructura que debe seguir la presentación de cada grupo el día de la sustentación.</p>
+        <div id="socList"></div>
+        <div class="resource-card" style="margin-top:30px">
+          <div class="resource-text">
+            <h3>Plantilla de PowerPoint para la sustentación</h3>
+            <p>Plantilla institucional con la estructura de la socialización. Al hacer clic, la descarga inicia directamente.</p>
+          </div>
+          <a class="resource-btn" href="https://docs.google.com/presentation/d/1V9fchBrtcILK_WMw5RxdXdKKRoUiCdag/export/pptx" target="_blank" rel="noopener">Descargar plantilla ↗</a>
+        </div>
+      </section>
+
+
+      <!-- 8 Sustentaciones -->
+      <section class="panel" data-panel="8">
+        <p class="eyebrow">Sección 8</p>
         <h2>Programación de sustentaciones 2026-2</h2>
         <hr class="rule">
-        <p class="lede">Escriba su nombre para ver su agenda como director o jurado, o filtre por fecha y sede para ver la programación completa de cada sala.</p>
+        <p class="lede">Escriba su nombre para ver su agenda como director o jurado, o filtre por fecha, sede o docente jurado para ver la programación de cada sala.</p>
 
         <div class="rules">
           <div class="rule-card"><b>15 + 5</b><span>minutos de sustentación y de preguntas del jurado por grupo</span></div>
           <div class="rule-card"><b>15 min</b><span>antes de su hora deben estar en el colegio grupos y jurados</span></div>
-          <div class="rule-card"><b>1 jurado</b><span>por grupo, del mismo técnico; nunca evalúa a sus propios grupos</span></div>
+          <div class="rule-card"><b>1 jurado</b><span>por grupo, del mismo técnico</span></div>
           <div class="rule-card"><b>50 / 50</b><span>nota del director y nota del jurado (formato P04-FT-02)</span></div>
         </div>
 
         <div class="callout">
-          <strong>Sustentaciones virtuales:</strong> estudiantes y docentes se presentan en su colegio y se conectan desde el computador dispuesto por el coordinador de sede. Cuando el jurado es de otra sede, se conecta desde el computador de su propio colegio. <strong>Cali (Villa del Sur), Candelaria, Roldanillo y Riofrío (Procesos Agroindustriales)</strong> sustentan de forma presencial; allí el formato de evaluación se diligencia y firma en físico.
+          <strong>Sustentaciones virtuales:</strong> estudiantes y docentes se presentan en su colegio y se conectan desde el computador dispuesto por el coordinador de sede. Cuando el jurado es de otra sede, se conecta desde el computador de su propio colegio.
         </div>
 
         <div class="filters">
-          <input type="text" id="sSearch" placeholder="Buscar por nombre de docente, estudiante o sede…">
+          <input type="text" id="sSearch" placeholder="Buscar docente o estudiante…">
           <select id="sFecha"><option value="">Todas las fechas</option></select>
           <select id="sSede"><option value="">Todas las sedes</option></select>
+          <select id="sJur"><option value="">Todos los docentes jurados</option></select>
         </div>
         <div id="sAgenda"></div>
         <p class="count" id="sCount"></p>
@@ -695,7 +714,8 @@ const STEPS = [
   "Programas técnicos",
   "Checklist del coordinador",
   "Errores comunes",
-  "Recursos y enlaces",
+  "Formatos y seguimiento",
+  "Puntos para socialización",
   "Sustentaciones 2026-2"
 ];
 
@@ -981,6 +1001,25 @@ RESOURCES.forEach((r) => {
 });
 
 
+const SOC = [
+  ["Portada", ""],
+  ["Presentación de la empresa", "Ubicación y sector al que pertenece la empresa creada."],
+  ["Objetivo general", ""],
+  ["Objetivos específicos", "Por cada objetivo, describir las actividades desarrolladas."],
+  ["Resultados", "Logros alcanzados (medibles, cuantificables)."],
+  ["Recomendaciones", "Aportes significativos a la empresa creada por los estudiantes, al INTEP y a los próximos practicantes."],
+  ["Conclusiones", "Respuesta a los objetivos planteados y alcanzados."],
+  ["Anexos", "Máximo 5. Son evidencias o pruebas que demuestran o afirman el trabajo desarrollado."]
+];
+const socEl = document.getElementById('socList');
+SOC.forEach(([label, desc], i) => {
+  const row = document.createElement('div');
+  row.className = 'ntc-row';
+  row.innerHTML = `<div class="label">${i+1}. ${label}</div><div class="desc">${desc}</div>`;
+  socEl.appendChild(row);
+});
+
+
 /* ---------------- SUSTENTACIONES ---------------- */
 let SUST = [];
 function sustInit(){
@@ -989,9 +1028,10 @@ function sustInit(){
   const tc = s => (s||'').toLowerCase().replace(/(^|[\s-])(\S)/g,(m,a,b)=>a+b.toUpperCase());
   const fechas = [...new Set(SUST.map(r=>r.f))];
   const sedes = [...new Set(SUST.map(r=>r.s))].sort();
-  const fSel = document.getElementById('sFecha'), sSel = document.getElementById('sSede'), q = document.getElementById('sSearch');
+  const fSel = document.getElementById('sFecha'), sSel = document.getElementById('sSede'), jSel = document.getElementById('sJur'), q = document.getElementById('sSearch');
   fechas.forEach(f=>fSel.insertAdjacentHTML('beforeend',`<option>${esc(f)}</option>`));
-  sedes.forEach(s=>sSel.insertAdjacentHTML('beforeend',`<option>${esc(s)}</option>`));
+  sedes.forEach(s=>sSel.insertAdjacentHTML('beforeend',`<option value="${esc(s)}">${esc(tc(s))}</option>`));
+  [...new Set(SUST.map(r=>r.jur))].sort((a,b)=>strip(a).localeCompare(strip(b))).forEach(j=>jSel.insertAdjacentHTML('beforeend',`<option value="${esc(j)}">${esc(tc(j))}</option>`));
   const docentes = [...new Set(SUST.flatMap(r=>[r.dir,r.jur]))];
 
   function hl(text, term){
@@ -1012,9 +1052,9 @@ function sustInit(){
     asJur.forEach(r=>{ const k=r.f+'|'+r.sala+'|'+r.s; (byKey[k]=byKey[k]||[]).push(r); });
     Object.values(byKey).forEach(rs=>{
       const r=rs[0], last=rs[rs.length-1];
-      const where = r.mod==='Presencial' ? `${esc(r.sala)} en ${esc(tc(r.s))}` : `colegio de ${esc(tc(r.col))} · <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.sala)}</a>`;
+      const where = r.mod==='Presencial' ? `${esc(r.sala)} de ${esc(tc(r.s))} <span class="tag-p">PRESENCIAL</span>` : `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.sala)}</a>`;
       const jl = rs.filter(x=>/^https?:/.test((x.links||{}).jur||'')).map(x=>`<a href="${esc(x.links.jur)}" target="_blank" rel="noopener">Notas ${esc(x.code)}</a>`).join(' · ');
-      html += `<div class="ag-row"><div class="k">Jurado</div><div><b>${esc(r.f)}</b>: citación ${esc(r.cj)} en el ${where}. Evalúa ${rs.length} grupo(s) de ${esc(tc(r.s))} de ${esc(r.hi)} a ${esc(last.hf)}${jl?'<br>Registrar notas al terminar: '+jl:''}</div></div>`;
+      html += `<div class="ag-row"><div class="k">Jurado</div><div><b>${esc(r.f)}</b>: citación ${esc(r.cj)} · ${where}. Evalúa ${rs.length} grupo(s) de ${esc(tc(r.s))} de ${esc(r.hi)} a ${esc(last.hf)}${jl?'<br>Registrar notas al terminar: '+jl:''}</div></div>`;
     });
     const dk = {};
     asDir.forEach(r=>{ const k=r.f+'|'+r.s; (dk[k]=dk[k]||[]).push(r); });
@@ -1029,9 +1069,9 @@ function sustInit(){
     box.innerHTML = html + '</div>';
   }
   function render(){
-    const term = strip(q.value.trim()), f = fSel.value, s = sSel.value;
-    agenda(term);
-    const rows = SUST.filter(r => (!f || r.f===f) && (!s || r.s===s) &&
+    const term = strip(q.value.trim()), f = fSel.value, s = sSel.value, jv = jSel.value;
+    agenda(jv ? strip(jv) : term);
+    const rows = SUST.filter(r => (!f || r.f===f) && (!s || r.s===s) && (!jv || r.jur===jv) &&
       (!term || [r.dir,r.jur,r.s,...r.est].some(v=>strip(v).includes(term)) ||
         term.split(/\s+/).every(w=>[r.dir,r.jur].some(v=>strip(v).includes(w)))));
     document.getElementById('sCount').textContent = rows.length ? `${rows.length} grupo(s) encontrados` : '';
@@ -1043,20 +1083,20 @@ function sustInit(){
     Object.values(rooms).forEach(rs=>{
       const r = rs[0];
       if(r.f!==lastF){ html += `<h3 class="day-title">${esc(r.f)}</h3>`; lastF=r.f; }
-      const pill = r.mod==='Presencial' ? '<span class="pill p">Presencial</span>' : '<span class="pill v">Virtual</span>';
+      const pill = '';
       const btn = r.url ? `<a class="meet" href="${esc(r.url)}" target="_blank" rel="noopener">Entrar a ${esc(r.sala)} ↗</a>` : '';
       html += `<div class="room"><div class="room-head"><div><div class="t">${esc(tc(r.s))} · ${esc(r.sala)} ${pill}</div>
-        <div class="m">Jornada de la ${esc(r.jor.toLowerCase())} · Moderación: ${esc(r.modr)}</div></div>${btn}</div>`;
+        <div class="m">Jornada de la ${esc(r.jor.toLowerCase())}</div></div>${btn}</div>`;
       rs.forEach(x=>{
-        html += `<div class="slot"><div class="h">${esc(x.hi)}<small>a ${esc(x.hf)}</small><small>Citación ${esc(x.cg)}</small></div>
+        html += `<div class="slot"><div class="h">${esc(x.cg)}<small>Citación</small><small>Sustenta: ${esc(x.hi)}</small></div>
           <div><div class="lbl">GRUPO ${esc(x.n)} · ${esc(x.tec.toUpperCase())}</div><div class="est">${x.est.map(e=>hl(tc(e),term)).join('<br>')}</div></div>
-          <div><div class="lbl">DIRECTOR</div>${hl(tc(x.dir),term)}<div class="lbl" style="margin-top:6px">JURADO</div>${hl(tc(x.jur),term)}${x.mod==='Virtual' && x.tipo==='Otra sede' ? `<br><small style="color:var(--ink-soft)">Se conecta desde ${esc(tc(x.col))} · citación ${esc(x.cj)}</small>`:''}</div></div>`;
+          <div><div class="lbl">DIRECTOR</div>${hl(tc(x.dir),term)}<div class="lbl" style="margin-top:6px">JURADO</div>${hl(tc(x.jur),term)}${x.mod==='Presencial' ? '<span class="tag-p">PRESENCIAL</span>' : ''}</div></div>`;
       });
       html += '</div>';
     });
     list.innerHTML = html;
   }
-  [q,fSel,sSel].forEach(el=>el.addEventListener(el===q?'input':'change',render));
+  [q,fSel,sSel,jSel].forEach(el=>el.addEventListener(el===q?'input':'change',render));
   render();
 }
 
