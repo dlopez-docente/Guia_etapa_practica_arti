@@ -449,9 +449,67 @@
     .ntc-row{ grid-template-columns:1fr; gap:6px; }
     .panel h2{ font-size:26px; }
   }
+
+  /* ---------- Sustentaciones ---------- */
+  .filters{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px; margin-bottom:18px; }
+  .filters input, .filters select{
+    width:100%; font-family:inherit; font-size:14.5px; padding:11px 14px;
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--paper); color:var(--ink);
+  }
+  .filters input:focus, .filters select:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .rules{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:0 0 28px; }
+  .rule-card{ background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; }
+  .rule-card b{ display:block; font-family:'Source Serif 4',serif; font-size:22px; color:var(--navy); margin-bottom:2px; }
+  .rule-card span{ font-size:13px; color:var(--ink-soft); line-height:1.45; }
+  .agenda{ background:var(--navy); color:#eef1f4; border-radius:var(--radius); padding:20px 24px; margin-bottom:26px; }
+  .agenda h3{ margin:0 0 12px; font-size:19px; color:#fff; }
+  .agenda .ag-row{ display:grid; grid-template-columns:120px 1fr; gap:14px; padding:10px 0; border-top:1px solid rgba(255,255,255,.14); font-size:14px; line-height:1.55; }
+  .agenda .ag-row .k{ color:var(--gold-soft); font-weight:600; }
+  .agenda a{ color:var(--gold-soft); }
+  .day-title{ font-family:'Source Serif 4',serif; font-size:22px; color:var(--navy); margin:34px 0 12px; padding-bottom:6px; border-bottom:2px solid var(--gold); }
+  .room{ background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:16px; overflow:hidden; }
+  .room-head{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px 20px; padding:14px 18px; background:#f1ede2; border-bottom:1px solid var(--line); }
+  .room-head .t{ font-weight:700; color:var(--navy); font-size:15.5px; }
+  .room-head .m{ font-size:13px; color:var(--ink-soft); margin-top:2px; }
+  .pill{ display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:20px; margin-left:6px; vertical-align:middle; }
+  .pill.v{ background:#e6edf5; color:var(--navy); }
+  .pill.p{ background:#f4ead2; color:#7a5a17; }
+  .meet{ font-size:13px; font-weight:600; color:var(--navy); text-decoration:none; border:1px solid var(--navy); padding:6px 12px; border-radius:var(--radius); align-self:center; white-space:nowrap; }
+  .meet:hover{ background:var(--navy); color:#fff; }
+  .slot{ display:grid; grid-template-columns:96px 1fr 1fr; gap:16px; padding:12px 18px; border-top:1px solid var(--line); font-size:14px; line-height:1.5; }
+  .slot:first-of-type{ border-top:none; }
+  .slot .h{ font-weight:700; color:var(--navy); }
+  .slot .h small{ display:block; font-weight:400; color:var(--ink-soft); font-size:12px; }
+  .slot .lbl{ font-size:11.5px; font-weight:700; color:var(--gold); letter-spacing:.03em; }
+  .slot .est{ color:var(--ink); }
+  .slot mark{ background:#fbeec4; padding:0 2px; }
+  .count{ font-size:13.5px; color:var(--ink-soft); margin:-6px 0 8px; }
+  @media (max-width: 880px){
+    .filters{ grid-template-columns:1fr; }
+    .rules{ grid-template-columns:1fr 1fr; }
+    .slot{ grid-template-columns:1fr; gap:6px; }
+    .agenda .ag-row{ grid-template-columns:1fr; gap:2px; }
+  }
+  /* ---------- Acceso ---------- */
+  #gate{ position:fixed; inset:0; z-index:100; background:linear-gradient(180deg,var(--navy) 0%,var(--navy-deep) 100%);
+         display:flex; align-items:center; justify-content:center; padding:20px; }
+  #gate .gbox{ background:var(--paper); border-radius:4px; padding:34px 32px; max-width:380px; width:100%; border-top:4px solid var(--gold); }
+  #gate h2{ margin:0 0 6px; color:var(--navy); font-size:22px; }
+  #gate p{ margin:0 0 18px; font-size:14px; color:var(--ink-soft); line-height:1.5; }
+  #gate input{ width:100%; padding:12px 14px; font-size:15px; border:1px solid var(--line); border-radius:var(--radius); font-family:inherit; }
+  #gate button{ margin-top:12px; width:100%; padding:12px; background:var(--navy); color:#fff; border:none; border-radius:var(--radius); font-family:inherit; font-size:14.5px; font-weight:600; cursor:pointer; }
+  #gate .err{ color:#8a3b2c; font-size:13px; margin-top:10px; min-height:18px; }
 </style>
 </head>
 <body>
+
+<div id="gate"><div class="gbox">
+  <h2>Guía Etapa Práctica</h2>
+  <p>Acceso para coordinadores y directores de articulación. Ingrese la contraseña que le compartió la Coordinación de Prácticas Empresariales.</p>
+  <input type="password" id="gPass" placeholder="Contraseña" autocomplete="off">
+  <button id="gBtn">Ingresar</button>
+  <div class="err" id="gErr"></div>
+</div></div>
 
 <div class="shell">
 
@@ -590,6 +648,35 @@
         <div id="resourceList"></div>
       </section>
 
+
+      <!-- 7 Sustentaciones -->
+      <section class="panel" data-panel="7">
+        <p class="eyebrow">Sección 7</p>
+        <h2>Programación de sustentaciones 2026-2</h2>
+        <hr class="rule">
+        <p class="lede">Escriba su nombre para ver su agenda como director o jurado, o filtre por fecha y sede para ver la programación completa de cada sala.</p>
+
+        <div class="rules">
+          <div class="rule-card"><b>15 + 5</b><span>minutos de sustentación y de preguntas del jurado por grupo</span></div>
+          <div class="rule-card"><b>15 min</b><span>antes de su hora deben estar en el colegio grupos y jurados</span></div>
+          <div class="rule-card"><b>1 jurado</b><span>por grupo, del mismo técnico; nunca evalúa a sus propios grupos</span></div>
+          <div class="rule-card"><b>50 / 50</b><span>nota del director y nota del jurado (formato P04-FT-02)</span></div>
+        </div>
+
+        <div class="callout">
+          <strong>Sustentaciones virtuales:</strong> estudiantes y docentes se presentan en su colegio y se conectan desde el computador dispuesto por el coordinador de sede. Cuando el jurado es de otra sede, se conecta desde el computador de su propio colegio. <strong>Cali (Villa del Sur), Candelaria, Roldanillo y Riofrío (Procesos Agroindustriales)</strong> sustentan de forma presencial; allí el formato de evaluación se diligencia y firma en físico.
+        </div>
+
+        <div class="filters">
+          <input type="text" id="sSearch" placeholder="Buscar por nombre de docente, estudiante o sede…">
+          <select id="sFecha"><option value="">Todas las fechas</option></select>
+          <select id="sSede"><option value="">Todas las sedes</option></select>
+        </div>
+        <div id="sAgenda"></div>
+        <p class="count" id="sCount"></p>
+        <div id="sList"></div>
+      </section>
+
       <div class="footnav">
         <button id="prevBtn">← Anterior</button>
         <button id="nextBtn">Siguiente →</button>
@@ -608,7 +695,8 @@ const STEPS = [
   "Programas técnicos",
   "Checklist del coordinador",
   "Errores comunes",
-  "Recursos y enlaces"
+  "Recursos y enlaces",
+  "Sustentaciones 2026-2"
 ];
 
 const NTC = [
@@ -891,6 +979,106 @@ RESOURCES.forEach((r) => {
     <a class="resource-btn" href="${r.url}" target="_blank" rel="noopener">${r.action} ↗</a>`;
   resourceListEl.appendChild(card);
 });
+
+
+/* ---------------- SUSTENTACIONES ---------------- */
+let SUST = [];
+function sustInit(){
+  const strip = s => (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const tc = s => (s||'').toLowerCase().replace(/(^|[\s-])(\S)/g,(m,a,b)=>a+b.toUpperCase());
+  const fechas = [...new Set(SUST.map(r=>r.f))];
+  const sedes = [...new Set(SUST.map(r=>r.s))].sort();
+  const fSel = document.getElementById('sFecha'), sSel = document.getElementById('sSede'), q = document.getElementById('sSearch');
+  fechas.forEach(f=>fSel.insertAdjacentHTML('beforeend',`<option>${esc(f)}</option>`));
+  sedes.forEach(s=>sSel.insertAdjacentHTML('beforeend',`<option>${esc(s)}</option>`));
+  const docentes = [...new Set(SUST.flatMap(r=>[r.dir,r.jur]))];
+
+  function hl(text, term){
+    const t = esc(text); if(!term) return t;
+    const i = strip(text).indexOf(term); if(i<0) return t;
+    return esc(text.slice(0,i)) + '<mark>' + esc(text.slice(i,i+term.length)) + '</mark>' + esc(text.slice(i+term.length));
+  }
+  function agenda(term){
+    const box = document.getElementById('sAgenda'); box.innerHTML='';
+    if(term.length < 4) return;
+    const words = term.split(/\s+/).filter(Boolean);
+    const hits = docentes.filter(d => words.every(w => strip(d).includes(w)));
+    if(hits.length !== 1) return;
+    const d = hits[0];
+    const asDir = SUST.filter(r=>r.dir===d), asJur = SUST.filter(r=>r.jur===d);
+    let html = `<div class="agenda"><h3>Agenda de ${esc(tc(d))}</h3>`;
+    const byKey = {};
+    asJur.forEach(r=>{ const k=r.f+'|'+r.sala+'|'+r.s; (byKey[k]=byKey[k]||[]).push(r); });
+    Object.values(byKey).forEach(rs=>{
+      const r=rs[0], last=rs[rs.length-1];
+      const where = r.mod==='Presencial' ? `${esc(r.sala)} en ${esc(tc(r.s))}` : `colegio de ${esc(tc(r.col))} · <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.sala)}</a>`;
+      const jl = rs.filter(x=>/^https?:/.test((x.links||{}).jur||'')).map(x=>`<a href="${esc(x.links.jur)}" target="_blank" rel="noopener">Notas ${esc(x.code)}</a>`).join(' · ');
+      html += `<div class="ag-row"><div class="k">Jurado</div><div><b>${esc(r.f)}</b>: citación ${esc(r.cj)} en el ${where}. Evalúa ${rs.length} grupo(s) de ${esc(tc(r.s))} de ${esc(r.hi)} a ${esc(last.hf)}${jl?'<br>Registrar notas al terminar: '+jl:''}</div></div>`;
+    });
+    const dk = {};
+    asDir.forEach(r=>{ const k=r.f+'|'+r.s; (dk[k]=dk[k]||[]).push(r); });
+    Object.values(dk).forEach(rs=>{
+      const r=rs[0], last=rs[rs.length-1];
+      const dl = rs.map(x=>{ const l=x.links||{}; const a=[];
+        if(/^https?:/.test(l.inf||'')) a.push(`<a href="${esc(l.inf)}" target="_blank" rel="noopener">Subir informe</a>`);
+        if(/^https?:/.test(l.dir||'')) a.push(`<a href="${esc(l.dir)}" target="_blank" rel="noopener">Registrar notas</a>`);
+        return `${esc(x.code)} (${esc(x.hi)})${a.length?': '+a.join(' · '):''}`; }).join('<br>');
+      html += `<div class="ag-row"><div class="k">Director</div><div><b>${esc(r.f)}</b>: ${rs.length} grupo(s) suyo(s) sustentan en ${esc(tc(r.s))} (${esc(r.jor.toLowerCase())}).<br>${dl}</div></div>`;
+    });
+    box.innerHTML = html + '</div>';
+  }
+  function render(){
+    const term = strip(q.value.trim()), f = fSel.value, s = sSel.value;
+    agenda(term);
+    const rows = SUST.filter(r => (!f || r.f===f) && (!s || r.s===s) &&
+      (!term || [r.dir,r.jur,r.s,...r.est].some(v=>strip(v).includes(term)) ||
+        term.split(/\s+/).every(w=>[r.dir,r.jur].some(v=>strip(v).includes(w)))));
+    document.getElementById('sCount').textContent = rows.length ? `${rows.length} grupo(s) encontrados` : '';
+    const list = document.getElementById('sList');
+    if(!rows.length){ list.innerHTML = '<div class="no-results">No hay sustentaciones que coincidan con la búsqueda.</div>'; return; }
+    let html=''; let lastF=null;
+    const rooms = {};
+    rows.forEach(r=>{ const k=r.f+'|'+r.jor+'|'+r.sala+'|'+r.s; (rooms[k]=rooms[k]||[]).push(r); });
+    Object.values(rooms).forEach(rs=>{
+      const r = rs[0];
+      if(r.f!==lastF){ html += `<h3 class="day-title">${esc(r.f)}</h3>`; lastF=r.f; }
+      const pill = r.mod==='Presencial' ? '<span class="pill p">Presencial</span>' : '<span class="pill v">Virtual</span>';
+      const btn = r.url ? `<a class="meet" href="${esc(r.url)}" target="_blank" rel="noopener">Entrar a ${esc(r.sala)} ↗</a>` : '';
+      html += `<div class="room"><div class="room-head"><div><div class="t">${esc(tc(r.s))} · ${esc(r.sala)} ${pill}</div>
+        <div class="m">Jornada de la ${esc(r.jor.toLowerCase())} · Moderación: ${esc(r.modr)}</div></div>${btn}</div>`;
+      rs.forEach(x=>{
+        html += `<div class="slot"><div class="h">${esc(x.hi)}<small>a ${esc(x.hf)}</small><small>Citación ${esc(x.cg)}</small></div>
+          <div><div class="lbl">GRUPO ${esc(x.n)} · ${esc(x.tec.toUpperCase())}</div><div class="est">${x.est.map(e=>hl(tc(e),term)).join('<br>')}</div></div>
+          <div><div class="lbl">DIRECTOR</div>${hl(tc(x.dir),term)}<div class="lbl" style="margin-top:6px">JURADO</div>${hl(tc(x.jur),term)}${x.mod==='Virtual' && x.tipo==='Otra sede' ? `<br><small style="color:var(--ink-soft)">Se conecta desde ${esc(tc(x.col))} · citación ${esc(x.cj)}</small>`:''}</div></div>`;
+      });
+      html += '</div>';
+    });
+    list.innerHTML = html;
+  }
+  [q,fSel,sSel].forEach(el=>el.addEventListener(el===q?'input':'change',render));
+  render();
+}
+
+/* ---------------- ACCESO (validado por la hoja central) ---------------- */
+(function(){
+  const WEBAPP = 'PEGAR_AQUI_LA_URL_DE_LA_APLICACION_WEB';
+  const gate = document.getElementById('gate'), err = document.getElementById('gErr'), btn = document.getElementById('gBtn');
+  async function entrar(pass, silencioso){
+    btn.disabled = true; btn.textContent = 'Verificando…'; err.textContent = '';
+    try{
+      const r = await fetch(WEBAPP + '?k=' + encodeURIComponent(pass.trim()));
+      const j = await r.json();
+      if(j.ok){ SUST = j.data; try{ sessionStorage.setItem('ep_art_k', pass.trim()); }catch(e){} gate.remove(); sustInit(); return; }
+      if(!silencioso) err.textContent = 'Contraseña incorrecta. Intente de nuevo.';
+    }catch(e){ err.textContent = 'No fue posible cargar la programación. Revise su conexión e intente de nuevo.'; }
+    btn.disabled = false; btn.textContent = 'Ingresar';
+  }
+  let k=null; try{ k = sessionStorage.getItem('ep_art_k'); }catch(e){}
+  if(k) entrar(k, true);
+  btn.addEventListener('click',()=>entrar(document.getElementById('gPass').value));
+  document.getElementById('gPass').addEventListener('keydown',e=>{ if(e.key==='Enter') entrar(e.target.value); });
+})();
 
 /* ---------------- NAVIGATION ---------------- */
 let current = 0;
