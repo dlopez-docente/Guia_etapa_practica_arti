@@ -506,7 +506,7 @@
 
 <div id="gate"><div class="gbox">
   <h2>Guía Etapa Práctica</h2>
-  <p>Acceso para coordinadores y directores de articulación. Ingrese la contraseña: docentes </p>
+  <p>Acceso para coordinadores y directores de articulación. Ingrese la contraseña que le compartió la Coordinación de Prácticas Empresariales.</p>
   <input type="password" id="gPass" placeholder="Contraseña" autocomplete="off">
   <button id="gBtn">Ingresar</button>
   <div class="err" id="gErr"></div>
@@ -1029,7 +1029,7 @@ function sustInit(){
   SUST.sort((a,b)=> (first[rk(a)]-first[rk(b)]) || (tmin(a.hi)-tmin(b.hi)));
   const strip = s => (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
   const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const tc = s => (s||'').toLowerCase().replace(/(^|[\s-])(\S)/g,(m,a,b)=>a+b.toUpperCase());
+  const tc = s => (s||'').toLowerCase().replace(/(^|[\s-])([^\s-])/g,(m,a,b)=>a+b.toUpperCase());
   const fechas = [...new Set(SUST.map(r=>r.f))];
   const sedes = [...new Set(SUST.map(r=>r.s))].sort();
   const fSel = document.getElementById('sFecha'), sSel = document.getElementById('sSede'), jSel = document.getElementById('sJur'), q = document.getElementById('sSearch');
